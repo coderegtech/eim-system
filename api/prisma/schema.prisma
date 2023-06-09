@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Customers {
+  id              Int       @id @unique @default(autoincrement()) @db.Int
+  name            String
+  address         String?   @db.Text
+  phoneNumber     String?   @unique
+  email           String?   @unique
+  password        String?
+  customerProfile String?
+  city            String?
+  postalCode      String?
+  country         String?
+  orders          Orders[]
+  Reviews         Reviews[]
+}
+
+model Products {
+  id          Int          @id @unique @default(autoincrement()) @db.Int
+  productImg  String
+  name        String
+  category    Categories?  @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  price       Float
+  description String?      @db.LongText
+  quantity    Int
+  OrderItems  OrderItems[]
+  Reviews     Reviews[]
+  Supplier    Suppliers?   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  supplierId  Int?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Categories {
+  id          Int        @id @unique @default(autoincrement()) @db.Int
+  name        String     @unique
+  description String     @db.Text
+  products    Products[]
+}
+
+model Suppliers {
+  id           Int        @id @unique @default(autoincrement()) @db.Int
+  supplierName String
+  contactName  String
+  phoneNumber  String?    @unique
+  email        String?    @unique
+  address      String?    @db.Text
+  city         String?
+  postalCode   String?
+  country      String?
+  products     Products[]
+}
+
+model Orders {
+  id          Int          @id @unique @default(autoincrement()) @db.Int
+  customer    Customers?   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  Int
+  orderDate   DateTime     @default(now())
+  totalAmount Float
+  status      String
+  orderItems  OrderItems[]
+}
+
+model OrderItems {
+  id        Int       @id @unique @default(autoincrement()) @db.Int
+  order     Orders    @relation(fields: [orderId], references: [id])
+  product   Products? @relation(fields: [productId], references: [id])
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+}
+
+model Reviews {
+  id         Int        @id @unique @default(autoincrement()) @db.Int
+  product    Products?  @relation(fields: [productId], references: [id])
+  customer   Customers? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  productId  Int
+  customerId Int
+  rating     Int
+  reviewText String?    @db.Text
+  reviewDate DateTime   @default(now())
+}

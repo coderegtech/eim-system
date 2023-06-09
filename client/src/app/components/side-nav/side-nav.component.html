@@ -1,0 +1,70 @@
+<div
+  class="sidenav relative flex flex-col top-0 left-0 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 text-white transition-all duration-300 border-none"
+>
+  <div
+    class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow"
+  >
+    <ul class="flex flex-col py-4 space-y-1">
+      <li>
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+        >
+          <span class="inline-flex justify-center items-center ml-4"
+            ><fa-icon [icon]="faHouse"></fa-icon
+          ></span>
+          <span class="ml-2 text-sm tracking-wide truncate">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/products"
+          routerLinkActive="active"
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+        >
+          <span class="inline-flex justify-center items-center ml-4">
+            <fa-icon [icon]="faTag"></fa-icon>
+          </span>
+          <span class="ml-2 text-sm tracking-wide truncate">Products</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/orders"
+          routerLinkActive="active"
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+        >
+          <span class="inline-flex justify-center items-center ml-4">
+            <fa-icon [icon]="faCartShopping"></fa-icon
+          ></span>
+          <span class="ml-2 text-sm tracking-wide truncate">Orders</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/customers"
+          routerLinkActive="active"
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+        >
+          <span class="inline-flex justify-center items-center ml-4">
+            <fa-icon [icon]="faUserGroup"></fa-icon>
+          </span>
+          <span class="ml-2 text-sm tracking-wide truncate">Customers</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/suppliers"
+          routerLinkActive="active"
+          class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+        >
+          <span class="inline-flex justify-center items-center ml-4">
+            <fa-icon [icon]="faCartFlatbed"></fa-icon>
+          </span>
+          <span class="ml-2 text-sm tracking-wide truncate">Suppliers</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

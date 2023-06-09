@@ -1,0 +1,25 @@
+<header
+  class="bg-white shadow-lg w-full min-h-[65px] flex justify-between items-center px-5 z-50 border-b-4 border-blue-900"
+>
+  <h1 class="text-xl">EIM Dashboard</h1>
+
+  <div class="flex items-center gap-3">
+    <span>
+      <fa-icon class="text-base" [icon]="faSun"></fa-icon>
+    </span>
+
+    <span class="relative">
+      <fa-icon class="text-base" [icon]="faBell"></fa-icon>
+      <span
+        class="absolute top-0 -right-1 bg-[red] rounded-full text-xs text-white text-center px-[3px]"
+        >1</span
+      >
+    </span>
+
+    <!-- dropdown -->
+    <div class="flex gap-1 items-center">
+      <span class="">Admin</span>
+      <fa-icon class="text-sm" [icon]="faChevronDown"></fa-icon>
+    </div>
+  </div>
+</header>
