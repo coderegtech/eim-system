@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { ProductsComponent } from '../../products.component';
+import { Subscription } from 'rxjs';
+import { CategoryService } from 'src/app/categories/categories.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { SuppliersService } from 'src/app/suppliers/suppliers.service';
+import { Category, Supplier } from 'src/app/types/interface.type';
 @Component({
   selector: 'app-add-product-modal',
   templateUrl: './add-product-modal.component.html',
@@ -8,18 +12,36 @@ import { ProductsComponent } from '../../products.component';
 })
 export class AddProductModalComponent implements OnInit {
   faXmark = faXmark;
-  @Input() activeModal!: boolean;
-  constructor(private productComponent: ProductsComponent) {}
+  categories: Category[] = [];
+  suppliers: Supplier[] = [];
+  activeModal: boolean = false;
+  private modalStateSubscription: Subscription;
 
-  ngOnInit(): void {}
+  constructor(
+    private modalService: ModalService,
+    private categoryService: CategoryService,
+    private supplierService: SuppliersService
+  ) {
+    this.modalStateSubscription = this.modalService
+      .getModalState()
+      .subscribe((state) => {
+        this.activeModal = state;
+      });
+  }
 
-  onFileChanged(event: Event) {
+  ngOnInit(): void {
+    // suppliers
+    this.supplierService.getAllSuppliers().subscribe((suppliers) => {
+      this.suppliers = suppliers;
+    });
 
-    const target = event.target as HTMLInputElement;
-    target.files
+    // categories
+    this.categoryService.getAllCategory().subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
   closeModal() {
-    this.productComponent.closeModal();
+    this.modalService.setActiveModal(false);
   }
 }

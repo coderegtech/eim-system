@@ -6,17 +6,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { CategoryService } from './categories/categories.service';
 import { AlertboxComponent } from './components/alertbox/alertbox.component';
+import { DatetimeComponent } from './components/datetime/datetime.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { CustomersComponent } from './customers/customers.component';
+import { CustomersService } from './customers/customers.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DatetimeComponent } from './datetime.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AddProductModalComponent } from './products/components/add-product-modal/add-product-modal.component';
-import { ProductsListComponent } from './products/components/products-list/products-list.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductsService } from './products/products.service';
+import { ModalService } from './services/modal.service';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 @NgModule({
   declarations: [
@@ -24,7 +29,6 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     ProductsComponent,
     HeaderComponent,
     SideNavComponent,
-    ProductsListComponent,
     AddProductModalComponent,
     OrdersComponent,
     CustomersComponent,
@@ -32,6 +36,9 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     SuppliersComponent,
     DatetimeComponent,
     AlertboxComponent,
+    NotfoundComponent,
+    MainscreenComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +47,7 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [ProductsService],
+  providers: [ProductsService, CustomersService, ModalService, CategoryService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

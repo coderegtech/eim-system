@@ -1,4 +1,5 @@
 export class Customer {
+  id: number;
   customerProfile: string;
   name: string;
   email?: string;

@@ -5,28 +5,21 @@
 </style>
 <div
   [ngClass]="{ active: activeModal }"
-  class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-4xl w-full min-h-[80vh] bg-white rounded-md shadow-md z-50 border-r-8 border-b-8 border-t-2 border-l-2 border-blue-900 p-5 duration-300"
+  class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-3xl w-full min-h-min bg-white rounded-xl shadow-md z-50 border-r-8 border-b-8 border-t-2 border-l-2 border-blue-900 p-5 duration-300"
 >
   <span class="absolute right-3 top-2" (click)="closeModal()">
     <fa-icon class="text-xl" [icon]="faXmark"></fa-icon>
   </span>
 
-  <h2 class="text-2xl font-bold text-center pb-3">Add Product</h2>
+  <h2 class="text-2xl font-bold pb-3">Add Product</h2>
 
-  <form>
-    <!-- image upload -->
-    <div
-      class="max-w-xs w-full h-60 border-dashed border-4 flex flex-col justify-center items-center"
-    >
-        <input
-          id="file"
-          type="file"
-          name="file"
-          (change)="onFileChanged($event)"
-          hidden
-          #fileupload
-
-        />
+  <form class="flex gap-5 flex-row-reverse w-full relative">
+    <div class="max-w-xs w-full flex flex-col justify-between items-center">
+      <!-- image upload -->
+      <div
+        class="w-full h-60 border-dashed border-4 flex flex-col justify-center items-center"
+      >
+        <input id="file" type="file" name="file" hidden #fileupload />
         <span>Drag & Drop Image to upload</span>
         <p>or</p>
         <button
@@ -36,8 +29,104 @@
         >
           Upload File
         </button>
+      </div>
+
+      <button class="w-full px-5 py-2 rounded-md bg-blue-800 text-white">
+        SUBMIT
+      </button>
     </div>
 
-    
+    <div class="grid grid-cols-1 w-full">
+      <div class="py-2">
+        <label class="flex flex-col text-sm text-gray-700 py-1"
+          >Product name*</label
+        >
+        <input
+          class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+          type="text"
+          placeholder="Enter product name..."
+        />
+      </div>
+
+      <div class="py-2">
+        <label class="flex flex-col text-sm text-gray-700 py-1">Price*</label>
+        <input
+          class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+          type="text"
+          placeholder="Enter price..."
+        />
+      </div>
+
+      <div class="py-2">
+        <label class="flex flex-col text-sm text-gray-700 py-1"
+          >Quantity*</label
+        >
+        <input
+          class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+          type="text"
+          placeholder="Enter quantity..."
+        />
+      </div>
+
+      <div class="py-2">
+        <label class="flex flex-col text-sm text-gray-700 py-1"
+          >Description*</label
+        >
+        <textarea
+          class="w-full min-h-[130px] border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+          placeholder="Enter Description..."
+        ></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div class="relative">
+          <select
+            id="category"
+            class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option disabled selected value="">Category</option>
+            <option *ngFor="let item of categories" [value]="item.name">
+              {{ item.name }}
+            </option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M7 7l3-3 3 3M7 13l3 3 3-3" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="relative">
+          <select
+            id="category"
+            class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option disabled selected value="">Supplier</option>
+            <option *ngFor="let item of suppliers" [value]="item.supplierName">
+              {{ item.supplierName }}
+            </option>
+          </select>
+          <div
+            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M7 7l3-3 3 3M7 13l3 3 3-3" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </div>

@@ -1,1 +1,12 @@
-<p>customers works!</p>
+<app-mainscreen
+  title="Customers"
+  inputPlaceHolder="Customer name"
+  [dataCounts]="customers.length"
+  addBtnText="Add Customer"
+  [tableHeadNames]="tableHeadNames"
+  [tableData]="customers"
+  [hasFilter]="false"
+  [dataItems]="dataItems"
+  [hasImage]="true"
+>
+</app-mainscreen>

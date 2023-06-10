@@ -48,6 +48,7 @@ export class CustomersService {
       return await this.prisma.customers.findMany({
         select: {
           customerProfile: true,
+          id: true,
           name: true,
           email: true,
           address: true,
@@ -70,6 +71,7 @@ export class CustomersService {
         },
         select: {
           customerProfile: true,
+          id: true,
           name: true,
           email: true,
           address: true,
@@ -91,9 +93,10 @@ export class CustomersService {
     try {
       const customers = await this.prisma.customers.findMany({
         where: {
-          name: {contains: name}
+          name: { contains: name },
         },
         select: {
+          id: true,
           name: true,
           email: true,
           address: true,

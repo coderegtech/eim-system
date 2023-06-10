@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import {
-  faCartFlatbed,
+  faBars,
   faCartShopping,
+  faDollyFlatbed,
   faHouse,
+  faTableList,
   faTag,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
@@ -18,5 +20,7 @@ export class SideNavComponent {
   faTag = faTag;
   faCartShopping = faCartShopping;
   faUserGroup = faUserGroup;
-  faCartFlatbed = faCartFlatbed;
+  faDollyFlatbed = faDollyFlatbed;
+  faBars = faBars;
+  faTableList = faTableList;
 }

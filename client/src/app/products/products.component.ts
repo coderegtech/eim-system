@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { faCalendarDays, faClock } from '@fortawesome/free-solid-svg-icons';
+import { Component, Input, OnInit, computed, signal } from '@angular/core';
 import { Category, Product } from '../types/interface.type';
 import { ProductsService } from './products.service';
 @Component({
@@ -9,35 +8,48 @@ import { ProductsService } from './products.service';
 })
 export class ProductsComponent implements OnInit {
   title = 'Products';
-  faCalendarDays = faCalendarDays;
-  faClock = faClock;
-  date = new Date().toLocaleDateString('en-PH', {
-    timeZone: 'Asia/Manila',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  isLoading = false;
+  @Input() isLoading = signal(false);
   categories: Category[] = [];
-  @Input() products: Product[] = [];
+  @Input() products = signal<Product[]>([]);
+  @Input() productsCount = computed(() => this.products().length);
 
-  @Input() addProductModalActive: boolean = true;
-  searchProductsInput: string = '';
+  searchProductsInput!: string;
+
+  tableHeadNames: string[] = [
+    'Product Image',
+    'Name',
+    'Price',
+    'Quantity',
+    'Description',
+    'Category',
+    'Supplier',
+  ];
+  dataItems: any[] = [
+    'name',
+    'price',
+    'quantity',
+    'description',
+    'category',
+    'Supplier',
+  ];
 
   constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
+    // fetch data
+
     this.getCategories();
     this.getProducts();
     this.searchProduct();
   }
 
   async getProducts() {
-    this.isLoading = true;
+    this.isLoading.set(true);
     return await this.productsService.getAllProducts().subscribe((products) => {
-      this.products = products;
+      this.products.set(products);
+      this.isLoading.set(false);
 
-      this.isLoading = false;
+      console.log(products);
     });
   }
 
@@ -51,15 +63,15 @@ export class ProductsComponent implements OnInit {
     await this.productsService
       .searchProduct(this.searchProductsInput)
       .subscribe((products) => {
-        this.products = products;
+        console.log(products);
+        this.products.set(products);
+        // this.products = products;
       });
   }
 
-  activeProductModal() {
-    this.addProductModalActive = true;
-  }
+  getInputValue(value: string) {
+    console.log(value);
 
-  closeModal() {
-    this.addProductModalActive = false;
+    this.searchProductsInput = value;
   }
 }

@@ -24,3 +24,14 @@ export interface Supplier {
   postalCode?: string;
   country?: string;
 }
+
+export interface Customers {
+  customerProfile: string;
+  name: string;
+  email?: string;
+  address?: string;
+  phoneNumber?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
+}

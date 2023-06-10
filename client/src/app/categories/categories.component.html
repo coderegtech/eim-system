@@ -1,14 +1,15 @@
 <div class="relative">
   <app-mainscreen
-    inputPlaceHolder="Name"
-    title="Suppliers"
-    [dataCounts]="suppliers.length"
-    addBtnText="Add Supplier"
+    inputPlaceHolder="Category name"
+    title="Categories"
+    [dataCounts]="categoriesCount()"
+    addBtnText="Add Category"
     [hasFilter]="false"
     [tableHeadNames]="tableHeadNames"
-    [tableData]="suppliers"
+    [tableData]="categories()"
     [hasImage]="false"
     [dataItems]="dataItems"
     (inputTextValue)="getInputValue($event)"
+    [isLoading]="isLoading()"
   ></app-mainscreen>
 </div>
