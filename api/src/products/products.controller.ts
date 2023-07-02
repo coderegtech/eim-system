@@ -4,10 +4,10 @@ import {
   Controller,
   Delete,
   Get,
-  Query,
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -56,7 +56,7 @@ export class ProductsController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductDto: CreateProductDto,
   ) {
-    console.log(file.filename);
+    console.log(file);
 
     return await this.productsService.addProduct(createProductDto, file);
   }

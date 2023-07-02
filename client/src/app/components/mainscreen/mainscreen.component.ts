@@ -10,16 +10,17 @@ export class MainscreenComponent {
   @Input({ required: true }) title!: string;
   @Input({ required: true }) inputPlaceHolder!: string;
   @Input({ required: true }) dataCounts!: number;
-  @Input({ required: false }) hasFilter?: boolean;
-  @Input({ required: false }) filter?: any[];
-  @Input({ required: false }) filterName?: string;
-  @Input({ required: false }) hasImage?: boolean;
-  @Input({ required: false }) isLoading?: boolean;
 
   @Input({ required: true }) addBtnText!: string;
   @Input({ required: true }) tableHeadNames!: string[];
   @Input({ required: true }) tableData!: any[];
   @Input({ required: true }) dataItems!: any[];
+
+  @Input() hasFilter?: boolean;
+  @Input() filter?: any[];
+  @Input() filterName?: string;
+  @Input() hasImage?: boolean;
+  @Input() isLoading?: boolean;
 
   inputValue: string = '';
   @Output() inputTextValue = new EventEmitter<string>();

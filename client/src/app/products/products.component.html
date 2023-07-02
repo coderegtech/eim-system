@@ -2,17 +2,17 @@
   <app-mainscreen
     inputPlaceHolder="Products name"
     title="Products"
-    [dataCounts]="productsCount()"
+    [dataCounts]="products.length"
     addBtnText="Add Product"
     [hasFilter]="true"
     filterName="Category"
     [filter]="categories"
     [tableHeadNames]="tableHeadNames"
-    [tableData]="products()"
+    [tableData]="products"
     [hasImage]="true"
     [dataItems]="dataItems"
     (inputTextValue)="getInputValue($event)"
-    [isLoading]="isLoading()"
+    [isLoading]="isLoading"
   ></app-mainscreen>
 
   <app-add-product-modal></app-add-product-modal>

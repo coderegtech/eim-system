@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryService } from './categories/categories.service';
+import { AddCategoryModalComponent } from './categories/components/add-category-modal/add-category-modal.component';
 import { AlertboxComponent } from './components/alertbox/alertbox.component';
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -23,6 +25,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductsService } from './products/products.service';
 import { ModalService } from './services/modal.service';
 import { SuppliersComponent } from './suppliers/suppliers.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +42,7 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     NotfoundComponent,
     MainscreenComponent,
     CategoriesComponent,
+    AddCategoryModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +50,8 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
+    NgxDropzoneModule,
+    ReactiveFormsModule,
   ],
   providers: [ProductsService, CustomersService, ModalService, CategoryService],
   bootstrap: [AppComponent],

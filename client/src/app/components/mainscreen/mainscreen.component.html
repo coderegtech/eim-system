@@ -1,4 +1,4 @@
-<div class="w-full p-5 relative">
+<div class="w-full p-5 relative overflow-hidden">
   <div class="w-full flex justify-between">
     <div class="leading-3">
       <h2 class="text-2xl font-semibold">{{ title }}</h2>
@@ -18,9 +18,14 @@
         type="text"
         [placeholder]="inputPlaceHolder + '...'"
         [(ngModel)]="inputValue"
-        (keyup)="getInputValue()"
       />
-      <button class="bg-black text-white px-5 py-2 rounded-md">Search</button>
+      <button
+        (click)="getInputValue()"
+        type="button"
+        class="bg-black text-white px-5 py-2 rounded-md"
+      >
+        Search
+      </button>
     </div>
 
     <div class="flex justify-between gap-3 items-center">
@@ -69,12 +74,12 @@
     >
       <thead class="bg-gray-50 relative">
         <tr>
-          <th
+          <!-- <th
             scope="col"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
           >
             ID no.
-          </th>
+          </th> -->
           <th
             scope="col"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
@@ -86,7 +91,7 @@
         </tr>
       </thead>
       <tbody
-        class="divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto shrink-0"
+        class="divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full"
       >
         <tr
           *ngFor="let data of tableData; let i = index"
@@ -98,14 +103,14 @@
             >No products available</span
           >
 
-          <span class="text-black text-center text-2xl" *ngIf="isLoading"
+          <!-- <span class="text-black text-center text-2xl" *ngIf="isLoading"
             >loading...</span
-          >
-          <td class="px-7 py-4">
+          > -->
+          <!-- <td class="px-7 py-4">
             <p>
               {{ i + 1 }}
             </p>
-          </td>
+          </td> -->
 
           <td class="px-6 py-4" *ngIf="hasImage">
             <div class="relative h-10 w-10">

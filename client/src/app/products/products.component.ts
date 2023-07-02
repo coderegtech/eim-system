@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, computed, signal } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CategoryService } from '../categories/categories.service';
 import { Category, Product } from '../types/interface.type';
 import { ProductsService } from './products.service';
 @Component({
@@ -8,10 +9,9 @@ import { ProductsService } from './products.service';
 })
 export class ProductsComponent implements OnInit {
   title = 'Products';
-  @Input() isLoading = signal(false);
+  @Input() isLoading = false;
   categories: Category[] = [];
-  @Input() products = signal<Product[]>([]);
-  @Input() productsCount = computed(() => this.products().length);
+  @Input() products: Product[] = [];
 
   searchProductsInput!: string;
 
@@ -33,45 +33,34 @@ export class ProductsComponent implements OnInit {
     'Supplier',
   ];
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private categoriesService: CategoryService
+  ) {
+    categoriesService
+      .getAllCategory()
+      .subscribe((categories) => (this.categories = categories));
+  }
 
   ngOnInit(): void {
     // fetch data
-
-    this.getCategories();
     this.getProducts();
-    this.searchProduct();
   }
 
   async getProducts() {
-    this.isLoading.set(true);
-    return await this.productsService.getAllProducts().subscribe((products) => {
-      this.products.set(products);
-      this.isLoading.set(false);
+    this.productsService.getAllProducts().subscribe((products) => {
+      this.products = products;
 
       console.log(products);
     });
   }
 
-  async getCategories() {
-    await this.productsService
-      .getCategories()
-      .subscribe((category) => (this.categories = category));
-  }
-
-  async searchProduct() {
-    await this.productsService
-      .searchProduct(this.searchProductsInput)
-      .subscribe((products) => {
-        console.log(products);
-        this.products.set(products);
-        // this.products = products;
-      });
-  }
-
   getInputValue(value: string) {
-    console.log(value);
-
-    this.searchProductsInput = value;
+    this.productsService.searchProduct(value).subscribe((products) => {
+      if (products) {
+        this.products = products;
+      }
+      console.log(products);
+    });
   }
 }

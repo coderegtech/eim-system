@@ -1,7 +1,18 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Category, Product } from '../types/interface.type';
+import { Product } from '../types/interface.type';
+
+interface newProductType {
+  file: File;
+  name: string;
+  price: number;
+  description: string;
+  quantity: number;
+  categoryId: number;
+  supplierId: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -9,9 +20,28 @@ export class ProductsService {
   private baseUrl = 'http://localhost:3000';
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<Category[]> {
+  addProduct(products: any, files: File): Observable<Product> {
+    const {
+      productName,
+      productPrice,
+      productQuantity,
+      productDescription,
+      selectedCategory,
+      selectedSupplier,
+    } = products;
+
+    const newProduct: newProductType = {
+      file: files,
+      name: productName,
+      price: productPrice,
+      quantity: productQuantity,
+      description: productDescription,
+      supplierId: selectedSupplier,
+      categoryId: selectedCategory,
+    };
+
     return this.http
-      .get<Category[]>(this.baseUrl + '/categories')
+      .post<Product>(this.baseUrl + '/products/addProduct', newProduct)
       .pipe(catchError(this.handleError));
   }
 

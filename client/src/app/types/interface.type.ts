@@ -15,6 +15,7 @@ export interface Category {
 }
 
 export interface Supplier {
+  id?: number;
   supplierName?: string;
   contactName?: string;
   phoneNumber?: string;

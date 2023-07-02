@@ -10,6 +10,15 @@ export class CategoryService {
   private baseUrl = 'http://localhost:3000/categories';
   constructor(private http: HttpClient) {}
 
+  addCategory(data: any): Observable<Category> {
+    return this.http
+      .post<Category>(this.baseUrl, {
+        name: data.name,
+        description: data.description,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
   getAllCategory(): Observable<Category[]> {
     return this.http
       .get<Category[]>(this.baseUrl)
