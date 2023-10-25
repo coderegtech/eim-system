@@ -30,7 +30,7 @@ export class AddProductModalComponent implements OnInit {
     selectedSupplier: new FormControl(''),
   });
 
-  private modalStateSubscription: Subscription;
+  //private modalStateSubscription: Subscription;
 
   constructor(
     private modalService: ModalService,
@@ -38,7 +38,7 @@ export class AddProductModalComponent implements OnInit {
     private supplierService: SuppliersService,
     private productService: ProductsService
   ) {
-    this.modalStateSubscription = this.modalService
+     this.modalService
       .getModalState()
       .subscribe((state) => {
         this.activeModal = state;

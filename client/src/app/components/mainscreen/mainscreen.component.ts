@@ -24,13 +24,23 @@ export class MainscreenComponent {
 
   inputValue: string = '';
   @Output() inputTextValue = new EventEmitter<string>();
+  @Output() selectedItemId = new EventEmitter<number>()
   getInputValue() {
     this.inputTextValue.emit(this.inputValue);
   }
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService) { }
 
   openModal() {
     this.modalService.setActiveModal(true);
   }
+
+  delBtn(id: number) {
+    this.selectedItemId.emit(id)
+  }
+
+  editBtn(id: number) {
+    this.selectedItemId.emit(id)
+  }
+
 }

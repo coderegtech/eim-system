@@ -10,7 +10,7 @@ export interface Product {
 
 export interface Category {
   id?: number;
-  name: string;
+  name?: string;
   description?: string;
 }
 

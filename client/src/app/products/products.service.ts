@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Product } from '../types/interface.type';
+import { Product } from '../types/interface.type'
 
 interface newProductType {
   file: File;
@@ -18,7 +18,7 @@ interface newProductType {
 })
 export class ProductsService {
   private baseUrl = 'http://localhost:3000';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addProduct(products: any, files: File): Observable<Product> {
     const {

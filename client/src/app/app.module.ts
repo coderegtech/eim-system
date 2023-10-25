@@ -25,6 +25,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductsService } from './products/products.service';
 import { ModalService } from './services/modal.service';
 import { SuppliersComponent } from './suppliers/suppliers.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
     FormsModule,
     NgxDropzoneModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [ProductsService, CustomersService, ModalService, CategoryService],
   bootstrap: [AppComponent],

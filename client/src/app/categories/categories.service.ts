@@ -10,11 +10,11 @@ export class CategoryService {
   private baseUrl = 'http://localhost:3000/categories';
   constructor(private http: HttpClient) {}
 
-  addCategory(data: any): Observable<Category> {
+  addCategory(category: any): Observable<Category> {
     return this.http
       .post<Category>(this.baseUrl, {
-        name: data.name,
-        description: data.description,
+        name: category.name,
+        description: category.description,
       })
       .pipe(catchError(this.handleError));
   }
@@ -22,6 +22,12 @@ export class CategoryService {
   getAllCategory(): Observable<Category[]> {
     return this.http
       .get<Category[]>(this.baseUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteCategory(id: number): Observable<Category> {
+    return this.http
+      .delete<Category>(`${this.baseUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
 

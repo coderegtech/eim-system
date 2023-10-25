@@ -1,17 +1,8 @@
 <div class="relative">
-  <app-mainscreen
-    inputPlaceHolder="Category name"
-    title="Categories"
-    [dataCounts]="categoriesCount()"
-    addBtnText="Add Category"
-    [hasFilter]="false"
-    [tableHeadNames]="tableHeadNames"
-    [tableData]="categories()"
-    [hasImage]="false"
-    [dataItems]="dataItems"
-    (inputTextValue)="getInputValue($event)"
-    [isLoading]="isLoading()"
-  ></app-mainscreen>
+  <app-mainscreen inputPlaceHolder="Category name" title="Categories" [dataCounts]="categoriesCount()"
+    addBtnText="Add Category" [hasFilter]="false" [tableHeadNames]="tableHeadNames" [tableData]="categories()"
+    [hasImage]="false" [dataItems]="dataItems" (inputTextValue)="getInputValue($event)" [isLoading]="isLoading()"
+    (selectedItemId)="removeCategory($event)" (selectedItemId)="editCategory($event)"></app-mainscreen>
 
   <app-add-category-modal></app-add-category-modal>
 </div>

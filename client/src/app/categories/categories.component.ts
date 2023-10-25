@@ -16,22 +16,34 @@ export class CategoriesComponent implements OnInit {
 
   searchProductsInput!: string;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
-    this.getCategories();
-  }
 
-  getCategories() {
+
+    // fetch categories
     this.categoryService.getAllCategory().subscribe((categories) => {
       this.categories.set(categories);
       console.log(categories);
     });
+
   }
 
-  getInputValue(value: string) {
-    console.log(value);
 
+  removeCategory(id: number) {
+    this.categoryService.deleteCategory(id).subscribe((res) => {
+      alert("Category removed")
+      console.log(res);
+
+    })
+  }
+
+  editCategory(id: number) {
+    alert("updated category" + id)
+  }
+
+
+  getInputValue(value: string) {
     this.searchProductsInput = value;
   }
 }

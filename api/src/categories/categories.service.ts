@@ -6,7 +6,7 @@ import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createCategories(
     createCategoryDto: CreateCategoryDto,
@@ -19,8 +19,6 @@ export class CategoriesService {
         },
       });
     } catch (error) {
-      console.log(error);
-
       throw new BadRequestException(error.message);
     }
   }
