@@ -23,4 +23,11 @@ export class SideNavComponent {
   faDollyFlatbed = faDollyFlatbed;
   faBars = faBars;
   faTableList = faTableList;
+
+
+  active = false;
+
+  activeNav() {
+    this.active = !this.active
+  }
 }

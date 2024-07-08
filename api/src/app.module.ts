@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CustomersModule } from './customers/customers.module';
 import { OrdersModule } from './orders/orders.module';
@@ -13,6 +14,7 @@ import { SuppliersModule } from './suppliers/suppliers.module';
     CategoriesModule,
     SuppliersModule,
     OrdersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [PrismaService],

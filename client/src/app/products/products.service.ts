@@ -18,7 +18,7 @@ interface newProductType {
 })
 export class ProductsService {
   private baseUrl = 'http://localhost:3000';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addProduct(products: any, files: File): Observable<Product> {
     const {
@@ -44,7 +44,7 @@ export class ProductsService {
       .post<Product>(this.baseUrl + '/products/addProduct', newProduct)
       .pipe(catchError(this.handleError));
   }
-
+   
   getAllProducts(): Observable<Product[]> {
     return this.http
       .get<Product[]>(this.baseUrl + '/products')

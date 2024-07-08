@@ -1,12 +1,12 @@
-<div
-  class="h-full relative flex flex-col top-0 left-0 w-14 md:hover:w-52 2xl:w-56 bg-blue-900 text-white transition-all duration-300 border-none"
->
+<div class="h-full relative flex flex-col top-0 left-0 w-14 md:hover:w-52 2xl:w-56 bg-blue-900 text-white transition-all duration-300 border-none"
+  >
+
   <div
     class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow"
   >
     <ul class="flex flex-col py-2 space-y-1">
       <li>
-        <a class="relative flex items-center h-11 pr-6 pl-2">
+        <a (click)="activeNav" class="relative flex items-center h-11 pr-6 pl-2">
           <span class="inline-flex justify-center items-center ml-4 text-xl"
             ><fa-icon [icon]="faBars"></fa-icon
           ></span>
