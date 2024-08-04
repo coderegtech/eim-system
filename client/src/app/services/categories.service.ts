@@ -7,12 +7,12 @@ import { Category } from '../types/interface.type';
   providedIn: 'root',
 })
 export class CategoryService {
-  private baseUrl = 'http://localhost:3000/categories';
+  private baseUrl = 'http://192.168.158.86:3000/categories';
   constructor(private http: HttpClient) {}
 
   addCategory(category: any): Observable<Category> {
     return this.http
-      .post<Category>(this.baseUrl, {
+      .post<Category>(this.baseUrl + "/create", {
         name: category.name,
         description: category.description,
       })
@@ -21,7 +21,13 @@ export class CategoryService {
 
   getAllCategory(): Observable<Category[]> {
     return this.http
-      .get<Category[]>(this.baseUrl)
+      .get<Category[]>(this.baseUrl + "/all")
+      .pipe(catchError(this.handleError));
+  }
+
+  getCategory(name: string): Observable<Category> {
+    return this.http
+      .get<Category>(`${this.baseUrl}/search/${name}`)
       .pipe(catchError(this.handleError));
   }
 

@@ -1,8 +1,11 @@
-<div class="w-full p-5 relative overflow-hidden">
+
+    <div class="w-full p-5 relative overflow-hidden">
   <div class="w-full flex justify-between">
     <div class="leading-3">
       <h2 class="text-2xl font-semibold">{{ title }}</h2>
-      <span class="text-sm text-neutral-600">{{ dataCounts }} {{ title.toLowerCase() }} found</span>
+      <span class="text-sm text-neutral-600"
+        >{{ dataCounts }} {{ title.toLowerCase() }} found</span
+      >
     </div>
 
     <app-datetime></app-datetime>
@@ -10,40 +13,66 @@
 
   <header class="w-full flex justify-between gap-3 items-center py-5">
     <div class="flex gap-3 items-center">
-      <input class="border border-black/20 px-3 py-2 rounded-md" name="search" type="text"
-        [placeholder]="inputPlaceHolder + '...'" [(ngModel)]="inputValue" />
-      <button (click)="getInputValue()" type="button" class="bg-black text-white px-5 py-2 rounded-md">
+      <input
+        class="border border-black/20 px-3 py-2 rounded-md"
+        name="search"
+        type="text"
+        [placeholder]="inputPlaceHolder + '...'"
+        [(ngModel)]="inputValue"
+      />
+      <button
+        (click)="getInputValue()"
+        type="button"
+        class="bg-black text-white px-5 py-2 rounded-md"
+      >
         Search
       </button>
     </div>
 
     <div class="flex justify-between gap-3 items-center">
       <div class="relative" *ngIf="hasFilter">
-        <select id="category"
-          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <select
+          id="category"
+          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
           <option disabled selected value="">{{ filterName }}</option>
           <option value="all">All</option>
           <option *ngFor="let item of filter" [value]="item.name">
             {{ item.name }}
           </option>
         </select>
-        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+        <div
+          class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+          >
             <path d="M7 7l3-3 3 3M7 13l3 3 3-3" />
           </svg>
         </div>
       </div>
 
-      <button (click)="openModal()" class="text-white bg-blue-900 px-3 py-2 rounded-md">
+      <button
+        (click)="openModal()"
+        class="text-white bg-blue-900 px-3 py-2 rounded-md"
+      >
         {{ addBtnText }}
       </button>
     </div>
   </header>
 
   <!-- Items table -->
-  <div style="min-height: calc(100vh - 15rem)" class="rounded-lg border border-gray-200 shadow-md relative">
+  <div
+    style="min-height: calc(100vh - 15rem)"
+    class="rounded-lg border border-gray-200 shadow-md relative"
+  >
     <!-- Items list -->
-    <table class="w-full border-collapse bg-white text-left text-sm text-gray-500 relative">
+    <table
+      class="w-full border-collapse bg-white text-left text-sm text-gray-500 relative"
+    >
       <thead class="bg-gray-50 relative">
         <tr>
           <!-- <th
@@ -52,20 +81,32 @@
           >
             ID no.
           </th> -->
-          <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            *ngFor="let item of tableHeadNames">
+          <th
+            scope="col"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            *ngFor="let item of tableHeadNames"
+          >
             {{ item }}
           </th>
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full">
-        <tr *ngFor="let data of tableData; let i = index" class="w-full h-full hover:bg-gray-50">
-          <span class="text-black text-center text-2xl" *ngIf="tableData.length === 0">No products available</span>
+      <tbody
+        class="divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full"
+      >
+        <tr
+          *ngFor="let data of tableData; let i = index"
+          class="w-full h-full hover:bg-gray-50"
+        >
+          <span
+            class="text-black text-center text-2xl"
+            *ngIf="tableData.length === 0"
+            >No {{title.toLocaleLowerCase()}} available</span
+          >
 
-          <!-- <span class="text-black text-center text-2xl" *ngIf="isLoading"
+          <span class="text-black text-center text-2xl" *ngIf="isLoading"
             >loading...</span
-          > -->
+          >
           <!-- <td class="px-7 py-4">
             <p>
               {{ i + 1 }}
@@ -74,47 +115,70 @@
 
           <td class="px-6 py-4" *ngIf="hasImage">
             <div class="relative h-10 w-10">
-              <img class="h-full w-full object-cover object-center rounded-full border border-neutral-900" src="http://localhost:3000/static/{{
+              <img
+                class="h-full w-full object-cover object-center rounded-full border border-neutral-900"
+                src="http://localhost:3000/static/{{
                   title.toLocaleLowerCase()
                 }}/{{
                   data?.productImg ? data?.productImg : data?.customerProfile
-                }}" alt="" />
+                }}"
+                alt=""
+              />
             </div>
           </td>
           <td class="px-6 py-4" *ngFor="let item of dataItems">
             <p>
               {{
-              data[item]?.name
-              ? data[item]?.name
-              : data[item]?.supplierName
-              ? data[item]?.supplierName
-              : data[item].length < 8 && data[item].length> 5
-                ? data[item].substring(0, 8) + "..."
-                : data[item].length > 20
-                ? data[item].substring(0, 20) + "..."
-                : data[item]
-                }}
+                data[item]?.name
+                  ? data[item]?.name
+                  : data[item]?.supplierName
+                  ? data[item]?.supplierName
+                  : data[item].length < 8 && data[item].length > 5
+                  ? data[item].substring(0, 8) + "..."
+                  : data[item].length > 20
+                  ? data[item].substring(0, 20) + "..."
+                  : data[item]
+              }}
             </p>
           </td>
 
           <td class="px-6 py-4">
             <div class="flex justify-end items-center gap-4">
-              <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"
-                fill="green">
+              <svg
+                class="cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 576 512"
+                fill="green"
+              >
                 <path
-                  d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+                  d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
+                />
               </svg>
 
-              <svg (click)="delBtn(data.id)" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="1em"
-                viewBox="0 0 448 512" fill="red">
+              <svg
+                (click)="delBtn(data.id)"
+                class="cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 448 512"
+                fill="red"
+              >
                 <path
-                  d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                  d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"
+                />
               </svg>
 
-              <svg (click)="editBtn(data.id)" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" height="1em"
-                viewBox="0 0 512 512">
+              <svg
+                (click)="editBtn(data.id)"
+                class="cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
                 <path
-                  d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
+                  d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"
+                />
               </svg>
             </div>
           </td>
@@ -123,3 +187,6 @@
     </table>
   </div>
 </div>
+
+
+

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Subscription } from 'rxjs';
-import { CategoryService } from 'src/app/categories/categories.service';
+import { CategoryService } from 'src/app/services/categories.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { SuppliersService } from 'src/app/suppliers/suppliers.service';
 import { Category, Supplier } from 'src/app/types/interface.type';
-import { ProductsService } from '../../products.service';
+import { ProductsService } from '../../../services/products.service';
 @Component({
   selector: 'app-add-product-modal',
   templateUrl: './add-product-modal.component.html',

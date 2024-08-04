@@ -21,7 +21,7 @@ export class CategoriesController {
     return await this.categoriesService.createCategories(createCategoryDto);
   }
 
-  @Get()
+  @Get("all")
   async findAllCategory() {
     return await this.categoriesService.getAllCategories();
   }

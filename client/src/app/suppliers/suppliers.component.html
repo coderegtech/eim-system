@@ -1,3 +1,10 @@
+<div class="w-full h-screen flex justify-start overflow-hidden">
+  <app-side-nav></app-side-nav>
+
+  <div class="grow">
+    <app-header></app-header>
+
+
 <div class="relative">
   <app-mainscreen
     inputPlaceHolder="Name"
@@ -11,4 +18,7 @@
     [dataItems]="dataItems"
     (inputTextValue)="getInputValue($event)"
   ></app-mainscreen>
+</div>
+
+  </div>
 </div>

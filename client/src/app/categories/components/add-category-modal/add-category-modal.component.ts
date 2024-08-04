@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from 'src/app/services/modal.service';
-import { CategoryService } from '../../categories.service';
+import { CategoryService } from '../../../services/categories.service';
 
 @Component({
   selector: 'app-add-category-modal',

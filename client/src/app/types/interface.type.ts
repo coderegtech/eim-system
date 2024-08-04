@@ -16,8 +16,8 @@ export interface Product {
 
 export interface Category {
   id?: number;
-  name?: string;
-  description?: string;
+  name: string;
+  description: string;
 }
 
 export interface Supplier {

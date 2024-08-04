@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CategoryService } from '../categories/categories.service';
+import { CategoryService } from '../services/categories.service';
+import { ProductsService } from '../services/products.service';
 import { Category, Product } from '../types/interface.type';
-import { ProductsService } from './products.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',

@@ -12,6 +12,7 @@ export class CategoriesService {
     createCategoryDto: CreateCategoryDto,
   ): Promise<Category> {
     try {
+
       return await this.prisma.categories.create({
         data: {
           name: createCategoryDto.name,
@@ -31,10 +32,10 @@ export class CategoriesService {
     }
   }
 
-  async searchCategory(name: string): Promise<Category[]> {
+  async searchCategory(name: string): Promise<Category> {
     try {
-      return await this.prisma.categories.findMany({
-        where: { name: { contains: name } },
+      return await this.prisma.categories.findUnique({
+        where: {name},
       });
     } catch (error) {
       throw new BadRequestException(error.message);
