@@ -21,7 +21,8 @@
         [(ngModel)]="inputValue"
       />
       <button
-        (click)="getInputValue()"
+        [disabled]="!inputValue"
+        (click)="searchItem()"
         type="button"
         class="bg-black text-white px-5 py-2 rounded-md"
       >
@@ -92,21 +93,25 @@
         </tr>
       </thead>
       <tbody
-        class="divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full"
+        class="relative divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full"
       >
-        <tr
-          *ngFor="let data of tableData; let i = index"
-          class="w-full h-full hover:bg-gray-50"
-        >
-          <span
-            class="text-black text-center text-2xl"
-            *ngIf="tableData.length === 0"
+<div class=" absolute -translate-x-1/2 -translate-y- left-1/2 top-1/2 pt-24">
+ <span
+            class="text-black text-center text-xl"
+            *ngIf="tableData.length === 0 || tableData === null"
             >No {{title.toLocaleLowerCase()}} available</span
           >
 
           <span class="text-black text-center text-2xl" *ngIf="isLoading"
             >loading...</span
           >
+</div>
+      
+        <tr
+          *ngFor="let data of tableData; let i = index"
+          class="w-full h-full hover:bg-gray-50"
+        >
+         
           <!-- <td class="px-7 py-4">
             <p>
               {{ i + 1 }}
@@ -171,6 +176,7 @@
 
               <svg
                 (click)="editBtn(data.id)"
+
                 class="cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"

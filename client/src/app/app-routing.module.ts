@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { CustomersComponent } from './customers/customers.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { OrdersComponent } from './orders/orders.component';
-import { ProductsComponent } from './products/products.component';
-import { SuppliersComponent } from './suppliers/suppliers.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { ProductsComponent } from './pages/products/products.component';
+import { SuppliersComponent } from './pages/suppliers/suppliers.component';
 
 const routes: Routes = [
   {

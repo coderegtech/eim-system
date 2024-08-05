@@ -7,14 +7,14 @@ import { Category } from '../types/interface.type';
   providedIn: 'root',
 })
 export class CategoryService {
-  private baseUrl = 'http://192.168.158.86:3000/categories';
+  private baseUrl = 'http://localhost:3000/categories';
   constructor(private http: HttpClient) {}
 
   addCategory(category: any): Observable<Category> {
     return this.http
       .post<Category>(this.baseUrl + "/create", {
-        name: category.name,
-        description: category.description,
+        name: category.categoryName,
+        description: category.categoryDescription,
       })
       .pipe(catchError(this.handleError));
   }
@@ -27,13 +27,13 @@ export class CategoryService {
 
   getCategory(name: string): Observable<Category> {
     return this.http
-      .get<Category>(`${this.baseUrl}/search/${name}`)
+      .get<Category>(`${this.baseUrl}/search?q=${name}`)
       .pipe(catchError(this.handleError));
   }
 
   deleteCategory(id: number): Observable<Category> {
     return this.http
-      .delete<Category>(`${this.baseUrl}/${id}`)
+      .delete<Category>(`${this.baseUrl}/delete/${id}`)
       .pipe(catchError(this.handleError));
   }
 

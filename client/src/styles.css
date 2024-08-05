@@ -26,3 +26,7 @@ body.darkmode {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+div:where(.swal2-container) div:where(.swal2-actions) {
+    gap: 1rem !important;
+}

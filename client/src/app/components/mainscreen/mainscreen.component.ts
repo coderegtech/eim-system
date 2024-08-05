@@ -27,9 +27,8 @@ export class MainscreenComponent {
   @Output() selectedItemId = new EventEmitter<number>()
 
 
-  getInputValue() {
-    // this.inputTextValue.emit(this.inputValue);
-    console.log(this.inputValue)
+  searchItem() {
+    this.inputTextValue.emit(this.inputValue);
   }
 
   constructor(private modalService: ModalService) { }

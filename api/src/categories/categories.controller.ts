@@ -16,22 +16,28 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Post()
-  async createCategory(@Body() createCategoryDto: CreateCategoryDto) {
-    return await this.categoriesService.createCategories(createCategoryDto);
+  @Post('create')
+  async createCategory(
+    res: Response,
+    @Body() createCategoryDto: CreateCategoryDto,
+  ) {
+    return await this.categoriesService.createCategories(
+      res,
+      createCategoryDto,
+    );
   }
 
-  @Get("all")
+  @Get('all')
   async findAllCategory() {
     return await this.categoriesService.getAllCategories();
   }
 
   @Get('search')
-  async searchCategory(@Query('name') name: string) {
+  async searchCategory(@Query('q') name: string) {
     return await this.categoriesService.searchCategory(name);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   async updateCategory(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -39,7 +45,7 @@ export class CategoriesController {
     return await this.categoriesService.updateCategory(+id, updateCategoryDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   async removeCategory(@Param('id') id: string) {
     return await this.categoriesService.removeCategory(+id);
   }
