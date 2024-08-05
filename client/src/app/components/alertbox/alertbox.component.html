@@ -1,0 +1,13 @@
+<div
+  [ngClass]="{
+    show: active,
+    success: status === 'success',
+    error: status === 'error'
+  }"
+  class="alert"
+>
+  <p class="alert-msg">{{ message }}</p>
+  <span id="alert-close" (click)="closeAlert()"
+    ><fa-icon [icon]="faXmark" class="text-white"></fa-icon
+  ></span>
+</div>

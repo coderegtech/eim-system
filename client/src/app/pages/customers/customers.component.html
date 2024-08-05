@@ -1,0 +1,22 @@
+<div class="w-full h-screen flex justify-start overflow-hidden">
+  <app-side-nav></app-side-nav>
+
+  <div class="grow">
+    <app-header></app-header>
+
+
+<app-mainscreen
+  title="Customers"
+  inputPlaceHolder="Customer name"
+  [dataCounts]="customers.length"
+  addBtnText="Add Customer"
+  [tableHeadNames]="tableHeadNames"
+  [tableData]="customers"
+  [hasFilter]="false"
+  [dataItems]="dataItems"
+  [hasImage]="true"
+>
+</app-mainscreen>
+
+  </div>
+</div>
