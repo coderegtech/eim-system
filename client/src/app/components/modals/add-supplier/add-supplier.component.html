@@ -1,0 +1,149 @@
+<style>
+  .active ~ body {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .active {
+    display: block;
+  }
+</style>
+
+<div
+  [ngClass]="{ active: activeModal }"
+  class="hidden absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl w-full min-h-min bg-white rounded-xl shadow-xl z-50 border-r-8 border-b-8 border-t-2 border-l-2 border-blue-900 p-5 duration-300"
+>
+  <span class="absolute right-3 top-2" (click)="closeModal()">
+    <fa-icon class="text-xl" [icon]="faXmark"></fa-icon>
+  </span>
+
+  <h2 class="text-2xl font-bold pb-3">Add Supplier</h2>
+
+  <form
+    [formGroup]="supplierForm"
+    class="gap-5 w-full relative"
+    (ngSubmit)="submitForm($event)"
+  >
+    <div class="">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Supplier name*</label
+      >
+      <input
+        formControlName="supplierName"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter Supplier name..."
+        required
+      />
+    </div>
+
+     <div class="">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Contact name*</label
+      >
+      <input
+        formControlName="contactName"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter Contact name..."
+        required
+      />
+    </div>
+
+    <div class="flex gap-2 w-full">
+ <div class=" w-full">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Phone Number*</label
+      >
+      <input
+        formControlName="phoneNumber"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter Phone number..."
+        required
+      />
+    </div>
+
+     <div class=" w-full">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Email*</label
+      >
+      <input
+        formControlName="email"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="email"
+        placeholder="Enter Email..."
+        required
+      />
+    </div>
+    </div>
+    
+
+    <div class="">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Address*</label
+      >
+      <textarea
+        cols="6"
+        formControlName="address"
+        class="w-full border-2 border-gray-400 px-3 py-1 resize-none rounded-md focus:outline-2 focus:outline-blue-800"
+        placeholder="Enter Address..."
+        required="true"
+      ></textarea>
+    </div>
+
+    <div class="flex gap-2 w-full">
+          <div class=" w-full">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >City*</label
+      >
+      <input
+        formControlName="city"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter City..."
+        required
+      />
+    </div>
+
+    <div class=" w-full">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Postal Code*</label
+      >
+      <input
+        formControlName="postalCode"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter Postal Code..."
+        required
+      />
+    </div>
+    </div>
+
+    <div class=" w-full">
+      <label class="flex flex-col text-sm text-gray-700 py-1"
+        >Country*</label
+      >
+      <input
+        formControlName="country"
+        class="w-full border-2 border-gray-400 px-3 py-1 rounded-md focus:outline-2 focus:outline-blue-800"
+        type="text"
+        placeholder="Enter Country..."
+        required
+      />
+    </div>
+
+    <button
+      [disabled]="
+        !supplierForm.value.supplierName ||
+        !supplierForm.value.contactName ||
+        !supplierForm.value.phoneNumber ||
+        !supplierForm.value.email
+      "
+      type="submit"
+      class="w-full px-5 py-2 mt-2 inline-block  rounded-md bg-blue-800 text-white"
+    >
+      SUBMIT
+    </button>
+  </form>
+</div>
