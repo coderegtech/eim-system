@@ -11,11 +11,11 @@ export class MainscreenComponent {
   @Input({ required: true }) inputPlaceHolder!: string;
   @Input({ required: true }) dataCounts!: number;
 
-  @Input({ required: true }) addBtnText!: string;
   @Input({ required: true }) tableHeadNames!: string[];
   @Input({ required: true }) tableData!: any[];
   @Input({ required: true }) dataItems!: any[];
 
+  @Input() addBtnText?: string;
   @Input() hasFilter?: boolean;
   @Input() filter?: any[];
   @Input() filterName?: string;
@@ -24,25 +24,23 @@ export class MainscreenComponent {
 
   inputValue: string = '';
   @Output() inputTextValue = new EventEmitter<string>();
-  @Output() selectedItemId = new EventEmitter<number>()
-
+  @Output() selectedItemId = new EventEmitter<number>();
 
   searchItem() {
     this.inputTextValue.emit(this.inputValue);
   }
 
-  constructor(private modalService: ModalService) { }
+  constructor(private modalService: ModalService) {}
 
   openModal() {
     this.modalService.setActiveModal(true);
   }
 
   delBtn(id: number) {
-    this.selectedItemId.emit(id)
+    this.selectedItemId.emit(id);
   }
 
   editBtn(id: number) {
-    this.selectedItemId.emit(id)
+    this.selectedItemId.emit(id);
   }
-
 }

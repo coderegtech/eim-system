@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Response,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -18,8 +19,8 @@ export class CategoriesController {
 
   @Post('create')
   async createCategory(
-    res: Response,
     @Body() createCategoryDto: CreateCategoryDto,
+    @Response() res,
   ) {
     return await this.categoriesService.createCategories(
       res,
@@ -48,5 +49,10 @@ export class CategoriesController {
   @Delete('delete/:id')
   async removeCategory(@Param('id') id: string) {
     return await this.categoriesService.removeCategory(+id);
+  }
+
+  @Get('count')
+  async getCategoryCount() {
+    return await this.categoriesService.categoryCount();
   }
 }

@@ -1,46 +1,39 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { Response } from 'express';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
-
 @Injectable()
 export class SuppliersService {
   constructor(private prisma: PrismaService) {}
 
-  async createSupplier(createSupplierDto: CreateSupplierDto) {
+  async supplierCount() {
     try {
-      const {
-        supplierName,
-        contactName,
-        phoneNumber,
-        email,
-        address,
-        city,
-        postalCode,
-        country,
-      } = createSupplierDto;
+      return await this.prisma.suppliers.count();
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
 
-      const foundSupplier = await this.findOneSupplier(email);
+  async createSupplier(createSupplierDto: CreateSupplierDto, res: Response) {
+    try {
+      const foundSupplier = await this.findOneSupplier(createSupplierDto.email);
 
-      if (foundSupplier)
-        throw new BadRequestException('Supplier already exist');
+      if (foundSupplier) {
+        return res.status(409).send({ message: 'Supplier already exist' });
+      }
 
-      const addSupplier = await this.prisma.suppliers.create({
-        data: {
-          supplierName,
-          contactName,
-          phoneNumber,
-          email,
-          address,
-          city,
-          postalCode,
-          country,
-        },
+      const supplier = await this.prisma.suppliers.create({
+        data: { ...createSupplierDto },
       });
 
-      if (!addSupplier) throw new BadRequestException();
-
-      return addSupplier;
+      if (supplier) {
+        return res.status(HttpStatus.CREATED).send({
+          status: 'success',
+          message: 'Supplier added',
+          data: supplier,
+        });
+      }
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -48,7 +41,11 @@ export class SuppliersService {
 
   async getAllSuppliers() {
     try {
-      return await this.prisma.suppliers.findMany();
+      return await this.prisma.suppliers.findMany({
+        orderBy: {
+          createdAt: 'asc',
+        },
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -95,11 +92,7 @@ export class SuppliersService {
     }
   }
 
-  async removeSupplier(id: number) {
-    try {
-      return await this.prisma.suppliers.delete({ where: { id } });
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+  removeSupplier(id: number) {
+    return this.prisma.suppliers.delete({ where: { id } });
   }
 }

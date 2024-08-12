@@ -7,27 +7,32 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
+import { AuthComponent } from './auth/auth.component';
+import { AuthModule } from './auth/auth.module';
 import { AlertboxComponent } from './components/alertbox/alertbox.component';
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { MainscreenComponent } from './components/mainscreen/mainscreen.component';
+import { AddCategoryComponent } from './components/modals/add-category/add-category.component';
+import { AddCustomerComponent } from './components/modals/add-customer/add-customer.component';
+import { AddProductComponent } from './components/modals/add-product/add-product.component';
+import { AddSupplierComponent } from './components/modals/add-supplier/add-supplier.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
-import { AddCategoryModalComponent } from './pages/categories/components/add-category-modal/add-category-modal.component';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { OrdersComponent } from './pages/orders/orders.component';
-import { AddProductModalComponent } from './pages/products/components/add-product-modal/add-product-modal.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { SuppliersComponent } from './pages/suppliers/suppliers.component';
+import { AuthService } from './services/auth.service';
 import { CategoryService } from './services/categories.service';
 import { CustomersService } from './services/customers.service';
 import { ModalService } from './services/modal.service';
+import { OrdersService } from './services/orders.service';
 import { ProductsService } from './services/products.service';
-
+import { SuppliersService } from './services/suppliers.service';
 
 @NgModule({
   declarations: [
@@ -43,13 +48,16 @@ import { ProductsService } from './services/products.service';
     NotfoundComponent,
     MainscreenComponent,
     CategoriesComponent,
-    AddCategoryModalComponent,
-    LoginComponent,
-    SignupComponent,
     CustomersComponent,
-    AddProductModalComponent,
+    LoaderComponent,
+    AddProductComponent,
+    AddCategoryComponent,
+    AddSupplierComponent,
+    AddCustomerComponent,
+    AuthComponent,
   ],
   imports: [
+    AuthModule,
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
@@ -59,7 +67,15 @@ import { ProductsService } from './services/products.service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [ProductsService, CustomersService, ModalService, CategoryService],
+  providers: [
+    AuthService,
+    OrdersService,
+    SuppliersService,
+    ProductsService,
+    CustomersService,
+    ModalService,
+    CategoryService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

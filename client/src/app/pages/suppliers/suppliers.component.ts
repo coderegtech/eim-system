@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Supplier } from 'src/app/types/interface.type';
-import { SuppliersService } from '../../services/suppliers.service';
+import { Component, effect, OnInit } from '@angular/core';
+import { SuppliersService } from 'src/app/services/suppliers.service';
+import { toastify } from 'src/app/utils';
 
 @Component({
   selector: 'app-suppliers',
@@ -8,8 +8,7 @@ import { SuppliersService } from '../../services/suppliers.service';
   styleUrls: ['./suppliers.component.css'],
 })
 export class SuppliersComponent implements OnInit {
-  @Input() suppliers: Supplier[] = [];
-
+  suppliersCount: number = 0;
   searchProductsInput!: string;
 
   tableHeadNames: string[] = [
@@ -33,16 +32,37 @@ export class SuppliersComponent implements OnInit {
     'country',
   ];
 
-  constructor(private supplierService: SuppliersService) {}
+  constructor(public supplierService: SuppliersService) {
+    effect(() => {
+      this.supplierService.suppliers();
+
+      // data count
+      this.supplierService.supplierCount().subscribe((res: any) => {
+        this.suppliersCount = res;
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.getAllSuppliers();
   }
 
-  async getAllSuppliers() {
-    await this.supplierService.getAllSuppliers().subscribe((suppliers) => {
-      this.suppliers = suppliers;
-      console.log(suppliers);
+  getAllSuppliers() {
+    this.supplierService.getAllSuppliers().subscribe((res: any) => {
+      this.supplierService.suppliers.set(res);
+    });
+  }
+
+  removeSupplier(id: number) {
+    this.supplierService.deleteSupplier(id).subscribe((res: any) => {
+      if (res.status === 'success') {
+        toastify(res.message, () => {
+          // filter current data to remove the specific item
+          this.supplierService.suppliers.update(() =>
+            this.supplierService.suppliers().filter((item) => item.id !== id),
+          );
+        });
+      }
     });
   }
 

@@ -1,10 +1,6 @@
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
-export const toastify = (
-  delText: string,
-  cancelText: string,
-  externalFunction: () => void
-) => {
+export const toastify = (delText: string, externalFunction: () => void) => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'px-5 py-2 rounded-md bg-green-500 text-white',
@@ -32,12 +28,23 @@ export const toastify = (
           text: delText,
           icon: 'success',
         });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire({
-          title: 'Cancelled',
-          text: cancelText,
-          icon: 'error',
-        });
       }
     });
+};
+
+export const toggleDarkmode = () => {
+  const setTheme = (theme: string) => {
+    localStorage.setItem('theme', theme);
+  };
+  const theme = localStorage.getItem('theme');
+
+  if (theme === 'light') {
+    setTheme('dark');
+  }
+
+  if (theme === 'dark') {
+    setTheme('light');
+  }
+
+  return theme
 };

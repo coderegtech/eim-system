@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomersService } from '../../services/customers.service';
-import { Customers } from '../../types/interface.type';
 
 @Component({
   selector: 'app-customers',
@@ -8,9 +7,10 @@ import { Customers } from '../../types/interface.type';
   styleUrls: ['./customers.component.css'],
 })
 export class CustomersComponent implements OnInit {
-  customers: Customers[] = [];
+  customersCount: number = 0;
+
   tableHeadNames: string[] = [
-    'Customer',
+    'Customer Profile',
     'Name',
     'Email',
     'Address',
@@ -29,16 +29,20 @@ export class CustomersComponent implements OnInit {
     'country',
   ];
 
-  constructor(private customerService: CustomersService) {}
+  constructor(public customerService: CustomersService) {}
 
   ngOnInit(): void {
     this.getCustomers();
+
+    // customers count
+    this.customerService.customersCount().subscribe((res: any) => {
+      this.customersCount = res;
+    });
   }
 
-  async getCustomers() {
-    await this.customerService.getAllCustomers().subscribe((customers) => {
-      this.customers = customers;
-      console.log(customers);
+  getCustomers() {
+    this.customerService.getAllCustomers().subscribe((res: any) => {
+      this.customerService.customers.set(res);
     });
   }
 }

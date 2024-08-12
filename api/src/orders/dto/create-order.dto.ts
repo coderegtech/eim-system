@@ -5,10 +5,16 @@ export class CreateOrderDto {
   customerId: number;
 
   @IsNumber()
+  productId: number;
+
+  @IsNumber()
   totalAmount: number;
 
   @IsString()
   status: string;
+
+  @IsNumber()
+  quantity: number;
 
   @IsDate()
   orderDate: Date;

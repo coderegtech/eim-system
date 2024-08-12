@@ -1,9 +1,8 @@
-
-    <div class="w-full p-5 relative overflow-hidden">
+<div class="dark:bg-blue-950 dark:text-white w-full p-5 relative overflow-hidden media-screen">
   <div class="w-full flex justify-between">
     <div class="leading-3">
       <h2 class="text-2xl font-semibold">{{ title }}</h2>
-      <span class="text-sm text-neutral-600"
+      <span class="text-sm dark:text-neutral-200 text-neutral-600"
         >{{ dataCounts }} {{ title.toLowerCase() }} found</span
       >
     </div>
@@ -14,7 +13,7 @@
   <header class="w-full flex justify-between gap-3 items-center py-5">
     <div class="flex gap-3 items-center">
       <input
-        class="border border-black/20 px-3 py-2 rounded-md"
+        class="border border-black/20 px-3 py-2 rounded-lg"
         name="search"
         type="text"
         [placeholder]="inputPlaceHolder + '...'"
@@ -24,7 +23,7 @@
         [disabled]="!inputValue"
         (click)="searchItem()"
         type="button"
-        class="bg-black text-white px-5 py-2 rounded-md"
+        class="bg-black text-white px-5 py-2 rounded-lg"
       >
         Search
       </button>
@@ -34,7 +33,7 @@
       <div class="relative" *ngIf="hasFilter">
         <select
           id="category"
-          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           <option disabled selected value="">{{ filterName }}</option>
           <option value="all">All</option>
@@ -57,8 +56,9 @@
       </div>
 
       <button
+        *ngIf="title !== 'Customers' && title !== 'Orders'"
         (click)="openModal()"
-        class="text-white bg-blue-900 px-3 py-2 rounded-md"
+        class="text-white bg-blue-900 px-3 py-2 rounded-lg"
       >
         {{ addBtnText }}
       </button>
@@ -67,24 +67,23 @@
 
   <!-- Items table -->
   <div
-    style="min-height: calc(100vh - 15rem)"
-    class="rounded-lg border border-gray-200 shadow-md relative"
+    class="h-vh overflow-auto rounded-lg dark:border-neutral-800 border border-gray-200 shadow-md"
   >
     <!-- Items list -->
     <table
-      class="w-full border-collapse bg-white text-left text-sm text-gray-500 relative"
+      class=" w-full border-collapse bg-white text-left text-sm text-gray-500"
     >
-      <thead class="bg-gray-50 relative">
+      <thead class="bg-gray-50 sticky top-0 left-0">
         <tr>
-          <!-- <th
-            scope="col"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-          >
-            ID no.
-          </th> -->
           <th
             scope="col"
-            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            class="w-[50px] px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+          >
+            No.
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
             *ngFor="let item of tableHeadNames"
           >
             {{ item }}
@@ -92,36 +91,36 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
-      <tbody
-        class="relative divide-y divide-gray-100 border-t border-gray-100 overflow-y-auto overflow-x-auto w-full h-full"
-      >
-<div class=" absolute -translate-x-1/2 -translate-y- left-1/2 top-1/2 pt-24">
- <span
-            class="text-black text-center text-xl"
+      <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+        <div
+          class="flex flex-col items-center justify-center absolute -translate-x-1/2 -translate-y- left-1/2 top-1/2"
+        >
+
+         <span *ngIf="isLoading"><app-loader></app-loader></span>
+
+          <span
+            class="text-black  text-xl"
             *ngIf="tableData.length === 0 || tableData === null"
-            >No {{title.toLocaleLowerCase()}} available</span
+            >No {{ title.toLocaleLowerCase() }} available</span
           >
 
-          <span class="text-black text-center text-2xl" *ngIf="isLoading"
-            >loading...</span
-          >
-</div>
-      
+         
+        </div>
+
         <tr
           *ngFor="let data of tableData; let i = index"
           class="w-full h-full hover:bg-gray-50"
         >
-         
-          <!-- <td class="px-7 py-4">
+          <td class="px-7 py-4">
             <p>
               {{ i + 1 }}
             </p>
-          </td> -->
+          </td>
 
           <td class="px-6 py-4" *ngIf="hasImage">
             <div class="relative h-10 w-10">
               <img
-                class="h-full w-full object-cover object-center rounded-full border border-neutral-900"
+                class="h-full w-full object-cover rounded-full border border-neutral-900"
                 src="http://localhost:3000/static/{{
                   title.toLocaleLowerCase()
                 }}/{{
@@ -132,18 +131,9 @@
             </div>
           </td>
           <td class="px-6 py-4" *ngFor="let item of dataItems">
-            <p>
-              {{
-                data[item]?.name
-                  ? data[item]?.name
-                  : data[item]?.supplierName
-                  ? data[item]?.supplierName
-                  : data[item].length < 8 && data[item].length > 5
-                  ? data[item].substring(0, 8) + "..."
-                  : data[item].length > 20
-                  ? data[item].substring(0, 20) + "..."
-                  : data[item]
-              }}
+            <p class="whitespace-nowrap">
+              {{data[item].length >= 30 ? 
+                data[item].substring(0, 30) + "..." : data[item]}}
             </p>
           </td>
 
@@ -176,7 +166,6 @@
 
               <svg
                 (click)="editBtn(data.id)"
-
                 class="cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
@@ -193,6 +182,3 @@
     </table>
   </div>
 </div>
-
-
-

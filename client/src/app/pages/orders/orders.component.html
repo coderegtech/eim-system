@@ -1,7 +1,13 @@
-<div class="w-full h-screen flex justify-start overflow-hidden">
-  <app-side-nav></app-side-nav>
 
-  <div class="grow">
-    <app-header></app-header>
-  </div>
-</div>
+    <app-mainscreen
+        inputPlaceHolder="Order name"
+        title="Orders"
+        [dataCounts]="ordersCount"
+        [hasFilter]="false"
+        [tableHeadNames]="tableHeadNames"
+        [tableData]="orders()"
+        [hasImage]="false"
+        [dataItems]="dataItems"
+        (inputTextValue)="getInputValue($event)"
+        [isLoading]="isLoading"
+      ></app-mainscreen>

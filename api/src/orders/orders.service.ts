@@ -12,8 +12,10 @@ export class OrdersService {
       const addOrder = await this.prisma.orders.create({
         data: {
           customerId: createOrderDto.customerId,
+          productId: createOrderDto.productId,
           totalAmount: createOrderDto.totalAmount,
           status: createOrderDto.status,
+          quantity: createOrderDto.quantity,
           orderDate: createOrderDto.orderDate,
         },
         include: {
@@ -22,6 +24,14 @@ export class OrdersService {
               customerProfile: true,
               name: true,
               address: true,
+            },
+          },
+          product: {
+            select: {
+              productImg: true,
+              name: true,
+              price: true,
+              quantity: true,
             },
           },
         },
@@ -46,6 +56,9 @@ export class OrdersService {
               address: true,
             },
           },
+        },
+        orderBy: {
+          createdAt: 'asc',
         },
       });
 

@@ -1,4 +1,5 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { Response } from 'express';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -8,13 +9,26 @@ import { Category } from './entities/category.entity';
 export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  async createCategories(res: Response, createCategoryDto: CreateCategoryDto) {
+  async categoryCount() {
+    try {
+      return await this.prisma.categories.count();
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async createCategories(
+    res: Response,
+    createCategoryDto: CreateCategoryDto,
+  ): Promise<any> {
     try {
       const isCategoryExist = await this.prisma.categories.findUnique({
         where: { name: createCategoryDto.name },
       });
       if (isCategoryExist) {
-        throw new BadRequestException('Category already exist');
+        return res
+          .status(HttpStatus.CONFLICT)
+          .send({ status: 'error', message: 'Category already exist' });
       }
 
       const category = await this.prisma.categories.create({
@@ -25,9 +39,11 @@ export class CategoriesService {
       });
 
       if (category) {
-        return res
-          .status(HttpStatus.CREATED)
-          .send({ message: 'Category added' });
+        return res.status(HttpStatus.CREATED).send({
+          status: 'success',
+          message: 'Category added',
+          data: category,
+        });
       }
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -36,13 +52,17 @@ export class CategoriesService {
 
   async getAllCategories(): Promise<Category[]> {
     try {
-      return await this.prisma.categories.findMany();
+      return await this.prisma.categories.findMany({
+        orderBy: {
+          createdAt: 'asc',
+        },
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
-  async searchCategory(name: string): Promise<Category> {
+  async searchCategory(name: string): Promise<Category[]> {
     try {
       const category = await this.prisma.categories.findUnique({
         where: { name },
@@ -52,7 +72,7 @@ export class CategoriesService {
         throw new BadRequestException('No category found');
       }
 
-      return category;
+      return [category];
     } catch (error) {
       throw new BadRequestException(error.message);
     }

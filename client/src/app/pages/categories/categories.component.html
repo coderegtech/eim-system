@@ -1,24 +1,14 @@
-<div class="w-full h-screen flex justify-start overflow-hidden">
-  <app-side-nav></app-side-nav>
-
-  <div class="grow">
-    <app-header></app-header>
 
     <div class="relative">
-      <app-alertbox
-        [message]="message"
-        [status]="status"
-        *ngIf="status"
-      ></app-alertbox>
 
       <app-mainscreen
         inputPlaceHolder="Category name"
         title="Categories"
-        [dataCounts]="categoriesCount()"
+        [dataCounts]="categoriesCount"
         addBtnText="Add Category"
         [hasFilter]="false"
         [tableHeadNames]="tableHeadNames"
-        [tableData]="categories()"
+        [tableData]="categoryService.categories()"
         [hasImage]="false"
         [dataItems]="dataItems"
         (inputTextValue)="getInputValue($event)"
@@ -27,7 +17,5 @@
         (selectedItemId)="editCategory($event)"
       ></app-mainscreen>
 
-      <app-add-category-modal></app-add-category-modal>
+      <app-add-category></app-add-category>
     </div>
-  </div>
-</div>

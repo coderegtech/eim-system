@@ -24,10 +24,9 @@ export class SideNavComponent {
   faBars = faBars;
   faTableList = faTableList;
 
-
   active = false;
 
   activeNav() {
-    this.active = !this.active
+    this.active = !this.active;
   }
 }

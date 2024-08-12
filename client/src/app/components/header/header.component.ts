@@ -14,7 +14,5 @@ export class HeaderComponent {
   faChevronDown = faChevronDown;
   faSun = faSun;
 
-  darkmodeBtn() {
-    
-  }
+  darkmodeBtn() {}
 }

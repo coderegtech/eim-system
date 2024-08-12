@@ -1,14 +1,15 @@
 export interface Order {
   customerId: number;
+  productId: number;
   totalAmout: number;
   status: string;
+  quantity: number;
   orderDate: Date;
-  orderItems: OrderItems[];
 }
 
-interface OrderItems {
-  orderId: number;
-  productId: number;
-  quantity: number;
-  price: number;
-}
+// interface OrderItems {
+//   orderId: number;
+//   productId: number;
+//   quantity: number;
+//   price: number;
+// }

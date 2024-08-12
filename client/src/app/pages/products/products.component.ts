@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 
 import { CategoryService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { Category, Product } from '../../types/interface.type';
+import { toastify } from 'src/app/utils';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -10,10 +10,8 @@ import { Category, Product } from '../../types/interface.type';
 })
 export class ProductsComponent implements OnInit {
   title = 'Products';
-  @Input() isLoading = false;
-  categories: Category[] = [];
-  @Input() products: Product[] = [];
-
+  isLoading = false;
+  productsCount: number = 0;
   searchProductsInput!: string;
 
   tableHeadNames: string[] = [
@@ -22,46 +20,71 @@ export class ProductsComponent implements OnInit {
     'Price',
     'Quantity',
     'Description',
-    'Category',
-    'Supplier',
   ];
-  dataItems: any[] = [
-    'name',
-    'price',
-    'quantity',
-    'description',
-    'category',
-    'Supplier',
-  ];
+  dataItems: any[] = ['name', 'price', 'quantity', 'description'];
 
   constructor(
-    private productsService: ProductsService,
-    private categoriesService: CategoryService
+    public productsService: ProductsService,
+    public categoryService: CategoryService,
   ) {
-    categoriesService
-      .getAllCategory()
-      .subscribe((categories) => (this.categories = categories));
+    effect(() => {
+      this.productsService.products();
+
+
+ // products count
+    this.productsService.productCount().subscribe((res: any) => {
+      this.productsCount = res;
+    });
+    })
   }
 
   ngOnInit(): void {
     // fetch data
     this.getProducts();
+
+    // categories
+    this.categoryService.getAllCategory().subscribe((res: any) => {
+      this.categoryService.categories.set(res);
+    });
   }
 
-  async getProducts() {
-    this.productsService.getAllProducts().subscribe((products) => {
-      this.products = products;
+  getProducts() {
+    this.isLoading = true;
 
-      console.log(products);
+    // fetch categories
+    this.productsService.getAllProducts().subscribe((res: any) => {
+      this.productsService.products.set(res);
+      this.isLoading = false;
+    });
+  }
+
+  removeProduct(id: number) {
+    this.productsService.deleteProduct(id).subscribe((res: any) => {
+      if (res) {
+        toastify('Product deleted', () => {
+          // filter current data to remove the specific item
+          this.productsService.products.update(() =>
+            this.productsService.products().filter((item) => item.id !== id),
+          );  
+        });
+      }
     });
   }
 
   getInputValue(value: string) {
-    this.productsService.searchProduct(value).subscribe((products) => {
-      if (products) {
-        this.products = products;
+    this.productsService.searchProduct(value).subscribe((res: any) => {
+      if (res) {
+        this.productsService.products.update(() =>
+          this.productsService
+            .products()
+            .filter((item) => item.name === res.name),
+        );
+        this.isLoading = false;
       }
-      console.log(products);
+
+      //  if no category found
+      this.productsService.products.update(() => []);
+      this.isLoading = false;
     });
   }
 }

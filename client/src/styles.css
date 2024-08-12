@@ -2,22 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg-dark: #111;
-  --font-clr-white: #fff;
-}
-
-body.darkmode {
-  background-color: var(--bg-dark);
-  color: var(--font-clr-white);
+* {
+  @apply transition-colors duration-200
 }
 
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 5px;
+  height: 5px
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.131);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -27,6 +23,17 @@ body.darkmode {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+
 div:where(.swal2-container) div:where(.swal2-actions) {
     gap: 1rem !important;
+}
+
+
+/* media query */
+/* when screen reach below the max-width of 1320px */
+@media (max-width: 1320px) {
+.media-screen {
+  width: calc(100dvw - 3.5rem);
+}
 }

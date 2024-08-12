@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -12,35 +12,42 @@ export class CustomersService {
     createCustomerDto: CreateCustomerDto,
     req: Request,
     res: Response,
-  ) {
-    const { name, email, address, phoneNumber, city, postalCode, country } =
-      createCustomerDto;
+  ): Promise<any> {
+    try {
+      const { name, email, address, phoneNumber, city, postalCode, country } =
+        createCustomerDto;
 
-    const foundCustomer = await this.findOneCustomer(email);
+      const foundCustomer = await this.findOneCustomer(email);
 
-    if (foundCustomer) throw new BadRequestException('Customer already exist');
+      if (foundCustomer) {
+        return res
+          .status(HttpStatus.CONFLICT)
+          .send({ message: 'Customer already exist' });
+      }
 
-    const filename = req.file.filename;
-    const addCustomer = await this.prisma.customers.create({
-      data: {
-        customerProfile: filename,
-        name,
-        email,
-        address,
-        phoneNumber,
-        city,
-        postalCode,
-        country,
-      },
-    });
+      const customeProfileImg = req.file.filename;
+      const customer = await this.prisma.customers.create({
+        data: {
+          customerProfile: customeProfileImg,
+          name,
+          email,
+          address,
+          phoneNumber,
+          city,
+          postalCode,
+          country,
+        },
+      });
 
-    if (!addCustomer) throw new BadRequestException();
-
-    // display the added customer but  exclude password
-    const addedCustomer = await this.findOneCustomer(addCustomer.email);
-    console.log(addedCustomer);
-
-    return addedCustomer;
+      if (customer) {
+        return res.send({
+          status: 'success',
+          message: 'Customer added',
+        });
+      }
+    } catch (err) {
+      throw new BadRequestException(err.message);
+    }
   }
 
   async getAllCustomers() {
@@ -56,6 +63,9 @@ export class CustomersService {
           city: true,
           postalCode: true,
           country: true,
+        },
+        orderBy: {
+          createdAt: 'asc',
         },
       });
     } catch (error) {
@@ -130,6 +140,14 @@ export class CustomersService {
   async removeCustomer(id: number) {
     try {
       return await this.prisma.customers.delete({ where: { id } });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async customersCount() {
+    try {
+      return await this.prisma.customers.count();
     } catch (error) {
       throw new BadRequestException(error.message);
     }

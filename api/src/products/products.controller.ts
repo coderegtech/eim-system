@@ -8,6 +8,8 @@ import {
   Patch,
   Post,
   Query,
+  Request,
+  Response,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -22,9 +24,9 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post('addProduct')
+  @Post('create')
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('productImg', {
       storage: diskStorage({
         destination: './uploads/productsImgs',
         filename: (req, file, cb) => {
@@ -55,13 +57,13 @@ export class ProductsController {
   async createProduct(
     @UploadedFile() file: Express.Multer.File,
     @Body() createProductDto: CreateProductDto,
+    @Response() res,
+    @Request() req,
   ) {
-    console.log(file);
-
-    return await this.productsService.addProduct(createProductDto, file);
+    return await this.productsService.addProduct(createProductDto, res, req);
   }
 
-  @Get()
+  @Get('all')
   getAllProducts() {
     return this.productsService.getAllProducts();
   }
@@ -76,8 +78,13 @@ export class ProductsController {
     return this.productsService.updateProduct(id, updateProductDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.productsService.removeProduct(id);
+  @Delete('delete/:id')
+  remove(@Param('id') id: string) {
+    return this.productsService.removeProduct(+id);
+  }
+
+  @Get('count')
+  getProductsCount() {
+    return this.productsService.productsCount();
   }
 }

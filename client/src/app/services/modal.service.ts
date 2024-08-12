@@ -5,13 +5,11 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ModalService {
-  private activeModal = false;
   private modalStateSubject = new Subject<boolean>();
 
   constructor() {}
 
   setActiveModal(active: boolean) {
-    this.activeModal = active;
     this.modalStateSubject.next(active);
   }
 

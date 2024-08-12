@@ -17,19 +17,6 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
-      {
-        path: 'signup',
-        component: SignupComponent,
-      }
-    ]
-  },
-  {
     path: 'dashboard',
     component: DashboardComponent,
   },
@@ -52,6 +39,19 @@ const routes: Routes = [
   {
     path: 'categories',
     component: CategoriesComponent,
+  },
+ {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'signup',
+        component: SignupComponent,
+      },
+    ],
   },
   { path: '**', component: NotfoundComponent },
 ];

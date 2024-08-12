@@ -1,15 +1,13 @@
-import { Component, Input, OnInit, computed, signal } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
+import { CategoryService } from 'src/app/services/categories.service';
 import { toastify } from 'src/app/utils';
-import { CategoryService } from '../../services/categories.service';
-import { Category } from '../../types/interface.type';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
 })
 export class CategoriesComponent implements OnInit {
-  categories = signal<Category[]>([]);
-  @Input() categoriesCount = computed(() => this.categories().length);
+  categoriesCount: number = 0;
   isLoading = false;
   message: string = '';
   status: string = '';
@@ -18,7 +16,16 @@ export class CategoriesComponent implements OnInit {
 
   searchProductsInput!: string;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(public categoryService: CategoryService) {
+    effect(() => {
+      this.categoryService.categories();
+
+      // data count
+      this.categoryService.categoryCount().subscribe((res: any) => {
+        this.categoriesCount = res;
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.fetchCategories();
@@ -28,42 +35,39 @@ export class CategoriesComponent implements OnInit {
     this.isLoading = true;
 
     // fetch categories
-    this.categoryService.getAllCategory().subscribe((categories) => {
-      this.categories.set(categories);
+    this.categoryService.getAllCategory().subscribe((res: any) => {
+      this.categoryService.categories.set(res);
       this.isLoading = false;
     });
   }
 
-  searchCategory() {
+  async searchCategory() {
     this.isLoading = true;
     // get Searched data
-    this.categoryService
+    await this.categoryService
       .getCategory(this.searchProductsInput)
-      .subscribe((category: any) => {
-        if (!category) {
-          this.status = 'error';
-          this.message = 'No Category found';
-        }
-
-        // push response object data to array
-        const data = [];
-        data.push(category);
-        console.log(category);
-        this.categories.set(data);
+      .then((res: any) => {
+        this.categoryService.categories.update(() => res);
+        this.isLoading = false;
+      })
+      .catch((err: any) => {
+        //  if no category found
+        this.categoryService.categories.update(() => []);
         this.isLoading = false;
       });
   }
 
   removeCategory(id: number) {
-          toastify("Category deleted", "", () => {
-            this.categoryService.deleteCategory(id).subscribe((res: any) => {
-            if (res) {
-              // filter current data to remove the specific item
-              this.categories.update(() => this.categories().filter(item => item.id !== id));
-            }
-          })
-          })
-      
+    this.categoryService.deleteCategory(id).subscribe((res: any) => {
+      if (res) {
+        toastify('Category deleted', () => {
+          // filter current data to remove the specific item
+          this.categoryService.categories.update(() =>
+            this.categoryService.categories().filter((item) => item.id !== id),
+          );
+        });
+      }
+    });
   }
 
   editCategory(id: number) {}

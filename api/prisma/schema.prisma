@@ -11,25 +11,30 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @unique @default(autoincrement()) @db.Int
-  userId   String @unique
-  username String @unique
-  password String
+  id        Int       @id @unique @default(autoincrement()) @db.Int
+  userId    String    @unique
+  username  String    @unique
+  password  String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Customers {
   id              Int       @id @unique @default(autoincrement()) @db.Int
   name            String
-  address         String?   @db.Text
-  phoneNumber     String?   @unique
-  email           String?   @unique
+  address         String   @db.Text
+  phoneNumber     String    @unique
+  email           String    @unique
   password        String?
   customerProfile String?
   city            String?
   postalCode      String?
   country         String?
-  orders          Orders[]
-  Reviews         Reviews[]
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+
+  orders  Orders[]
+  reviews Reviews[]
 }
 
 model Products {
@@ -37,58 +42,73 @@ model Products {
   productImg  String
   name        String
   category    Categories?  @relation(fields: [categoryId], references: [id])
-  categoryId  Int?
+  categoryId  Int
   price       Float
   description String?      @db.LongText
   quantity    Int
-  OrderItems  OrderItems[]
-  Reviews     Reviews[]
-  Supplier    Suppliers?   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
-  supplierId  Int?
+  reviews     Reviews[]
+  supplier    Suppliers?   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  supplierId  Int
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+
+  Orders Orders[]
 }
 
 model Categories {
-  id          Int        @id @unique @default(autoincrement()) @db.Int
-  name        String     @unique
-  description String     @db.Text
-  products    Products[]
+  id          Int       @id @unique @default(autoincrement()) @db.Int
+  name        String    @unique
+  description String    @db.Text
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  products Products[]
 }
 
 model Suppliers {
-  id           Int        @id @unique @default(autoincrement()) @db.Int
+  id                  Int       @id @unique @default(autoincrement()) @db.Int
   supplierName String
-  contactName  String
-  phoneNumber  String?    @unique
-  email        String?    @unique
-  address      String?    @db.Text
-  city         String?
-  postalCode   String?
-  country      String?
-  products     Products[]
+  contactName         String
+  phoneNumber         String?   @unique
+  email               String?   @unique
+  address             String?   @db.Text
+  city                String?
+  postalCode          String?
+  country             String?
+  createdAt           DateTime? @default(now())
+  updatedAt           DateTime? @updatedAt
+
+  products Products[]
 }
 
 model Orders {
-  id          Int          @id @unique @default(autoincrement()) @db.Int
-  customer    Customers?   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  id          Int        @id @unique @default(autoincrement()) @db.Int
+  customer    Customers? @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId  Int
-  orderDate   DateTime     @default(now())
+
+  product Products? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int?
+  orderDate   DateTime   @default(now())
   totalAmount Float
+  quantity  Int
   status      String
-  orderItems  OrderItems[]
+  createdAt   DateTime?  @default(now())
+  updatedAt   DateTime?  @updatedAt
+
 }
 
-model OrderItems {
-  id        Int       @id @unique @default(autoincrement()) @db.Int
-  order     Orders    @relation(fields: [orderId], references: [id])
-  product   Products? @relation(fields: [productId], references: [id])
-  orderId   Int
-  productId Int
-  quantity  Int
-  price     Float
-}
+// model OrderItems {
+//   id        Int       @id @unique @default(autoincrement()) @db.Int
+//   order     Orders    @relation(fields: [orderId], references: [id])
+//   product   Products? @relation(fields: [productId], references: [id])
+//   orderId   Int
+//   productId Int
+//   quantity  Int
+//   price     Float
+//   createdAt DateTime? @default(now())
+//   updatedAt DateTime? @updatedAt
+// }
 
 model Reviews {
   id         Int        @id @unique @default(autoincrement()) @db.Int
@@ -99,4 +119,7 @@ model Reviews {
   rating     Int
   reviewText String?    @db.Text
   reviewDate DateTime   @default(now())
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

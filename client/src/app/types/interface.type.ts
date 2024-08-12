@@ -5,13 +5,16 @@ export interface User {
 }
 
 export interface Product {
-  productImg: string;
+  id?: number;
+  productImg?: string;
   name: string;
   price: number;
   description: string;
   quantity: number;
-  category: Category;
-  Supplier: Supplier;
+  categoryId: number;
+  SupplierId: number;
+  category?: Category;
+  supplier?: Supplier;
 }
 
 export interface Category {
@@ -41,4 +44,14 @@ export interface Customers {
   city?: string;
   postalCode?: string;
   country?: string;
+}
+
+export interface Order {
+  id?: number;
+  customerId: number;
+  productId: number;
+  totalAmout: number;
+  status: string;
+  quantity: number;
+  orderDate: Date;
 }

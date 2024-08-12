@@ -1,29 +1,21 @@
-<div class="w-full h-screen flex justify-start overflow-hidden">
-  <app-side-nav></app-side-nav>
-
-  <div class="grow">
-    <app-header></app-header>
-
 
 <div class="relative">
   <app-mainscreen
     inputPlaceHolder="Products name"
     title="Products"
-    [dataCounts]="products.length"
+    [dataCounts]="productsCount"
     addBtnText="Add Product"
     [hasFilter]="true"
     filterName="Category"
-    [filter]="categories"
+    [filter]="categoryService.categories()"
     [tableHeadNames]="tableHeadNames"
-    [tableData]="products"
+    [tableData]="productsService.products()"
     [hasImage]="true"
     [dataItems]="dataItems"
     (inputTextValue)="getInputValue($event)"
+            (selectedItemId)="removeProduct($event)"
     [isLoading]="isLoading"
   ></app-mainscreen>
 
-  <app-add-product-modal></app-add-product-modal>
-</div>
-
-</div>
+  <app-add-product></app-add-product>
 </div>

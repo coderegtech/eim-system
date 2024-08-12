@@ -24,7 +24,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
-  @Post('addCustomer')
+  @Post('create')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -69,7 +69,7 @@ export class CustomersController {
     );
   }
 
-  @Get()
+  @Get('all')
   async findAllCustomers() {
     return await this.customersService.getAllCustomers();
   }
@@ -90,5 +90,10 @@ export class CustomersController {
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.customersService.removeCustomer(id);
+  }
+
+  @Get('count')
+  getCustomersCount() {
+    return this.customersService.customersCount();
   }
 }

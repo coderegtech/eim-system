@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Category } from '../types/interface.type';
 
@@ -8,11 +8,13 @@ import { Category } from '../types/interface.type';
 })
 export class CategoryService {
   private baseUrl = 'http://localhost:3000/categories';
+  public categories = signal<Category[]>([]);
+
   constructor(private http: HttpClient) {}
 
   addCategory(category: any): Observable<Category> {
     return this.http
-      .post<Category>(this.baseUrl + "/create", {
+      .post<Category>(this.baseUrl + '/create', {
         name: category.categoryName,
         description: category.categoryDescription,
       })
@@ -21,19 +23,32 @@ export class CategoryService {
 
   getAllCategory(): Observable<Category[]> {
     return this.http
-      .get<Category[]>(this.baseUrl + "/all")
+      .get<Category[]>(`${this.baseUrl}/all`)
       .pipe(catchError(this.handleError));
   }
 
-  getCategory(name: string): Observable<Category> {
-    return this.http
-      .get<Category>(`${this.baseUrl}/search?q=${name}`)
-      .pipe(catchError(this.handleError));
+  getCategory(name: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.http.get<Category>(`${this.baseUrl}/search?q=${name}`).subscribe({
+        next: (res) => {
+          resolve(res);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
   }
 
   deleteCategory(id: number): Observable<Category> {
     return this.http
       .delete<Category>(`${this.baseUrl}/delete/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  categoryCount() {
+    return this.http
+      .get(`${this.baseUrl}/count`)
       .pipe(catchError(this.handleError));
   }
 
@@ -46,12 +61,12 @@ export class CategoryService {
       // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, body was: `,
-        error.error
+        error.error,
       );
     }
     // Return an observable with a user-facing error message.
     return throwError(
-      () => new Error('Something bad happened; please try again later.')
+      () => new Error('Something bad happened; please try again later.'),
     );
   }
 }

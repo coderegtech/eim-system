@@ -1,59 +1,53 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Product } from '../types/interface.type'
-
-interface newProductType {
-  file: File;
-  name: string;
-  price: number;
-  description: string;
-  quantity: number;
-  categoryId: number;
-  supplierId: number;
-}
+import { Product } from '../types/interface.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:3000/products';
+  public products = signal<Product[]>([]);
+
   constructor(private http: HttpClient) {}
 
   addProduct(products: any, files: File): Observable<Product> {
-    const {
-      productName,
-      productPrice,
-      productQuantity,
-      productDescription,
-      selectedCategory,
-      selectedSupplier,
-    } = products;
-
-    const newProduct: newProductType = {
-      file: files,
-      name: productName,
-      price: productPrice,
-      quantity: productQuantity,
-      description: productDescription,
-      supplierId: selectedSupplier,
-      categoryId: selectedCategory,
-    };
+    const formData = new FormData();
+    formData.append('productImg', files);
+    formData.append('name', products.productName);
+    formData.append('price', products.productPrice);
+    formData.append('quantity', products.productQuantity);
+    formData.append('description', products.productDescription);
+    formData.append('supplierId', products.selectedSupplier);
+    formData.append('categoryId', products.selectedCategory);
 
     return this.http
-      .post<Product>(this.baseUrl + '/products/addProduct', newProduct)
+      .post<Product>(this.baseUrl + '/create', formData)
       .pipe(catchError(this.handleError));
   }
-   
+
   getAllProducts(): Observable<Product[]> {
     return this.http
-      .get<Product[]>(this.baseUrl + '/products')
+      .get<Product[]>(this.baseUrl + '/all')
       .pipe(catchError(this.handleError));
   }
 
   searchProduct(name: string): Observable<Product[]> {
     return this.http
-      .get<Product[]>(this.baseUrl + `/products/search?name=${name}`)
+      .get<Product[]>(this.baseUrl + `/search?name=${name}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteProduct(id: number): Observable<Product> {
+    return this.http
+      .delete<Product>(`${this.baseUrl}/delete/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  productCount() {
+    return this.http
+      .get(`${this.baseUrl}/count`)
       .pipe(catchError(this.handleError));
   }
 
@@ -66,12 +60,12 @@ export class ProductsService {
       // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, body was: `,
-        error.error
+        error.error,
       );
     }
     // Return an observable with a user-facing error message.
     return throwError(
-      () => new Error('Something bad happened; please try again later.')
+      () => new Error('Something bad happened; please try again later.'),
     );
   }
 }
