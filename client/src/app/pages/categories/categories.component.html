@@ -13,8 +13,8 @@
         [dataItems]="dataItems"
         (inputTextValue)="getInputValue($event)"
         [isLoading]="isLoading"
-        (selectedItemId)="removeCategory($event)"
-        (selectedItemId)="editCategory($event)"
+        (removedItemId)="removeCategory($event)"
+        (editedItemId)="editCategory($event)"
       ></app-mainscreen>
 
       <app-add-category></app-add-category>

@@ -32,19 +32,3 @@ export const toastify = (delText: string, externalFunction: () => void) => {
     });
 };
 
-export const toggleDarkmode = () => {
-  const setTheme = (theme: string) => {
-    localStorage.setItem('theme', theme);
-  };
-  const theme = localStorage.getItem('theme');
-
-  if (theme === 'light') {
-    setTheme('dark');
-  }
-
-  if (theme === 'dark') {
-    setTheme('light');
-  }
-
-  return theme
-};

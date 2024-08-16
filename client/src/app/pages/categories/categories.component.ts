@@ -70,7 +70,9 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  editCategory(id: number) {}
+  editCategory(id: number) {
+    alert(id)
+  }
 
   getInputValue(value: string) {
     this.searchProductsInput = value;

@@ -66,6 +66,9 @@ export class SuppliersComponent implements OnInit {
     });
   }
 
+  editSupplier(id: number) {
+  }
+
   getInputValue(value: string) {
     this.searchProductsInput = value;
   }

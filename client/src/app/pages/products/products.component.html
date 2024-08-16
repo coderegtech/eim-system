@@ -13,7 +13,9 @@
     [hasImage]="true"
     [dataItems]="dataItems"
     (inputTextValue)="getInputValue($event)"
-            (selectedItemId)="removeProduct($event)"
+            (removedItemId)="removeProduct($event)"
+            (editedItemId)="editProduct($event)"
+            
     [isLoading]="isLoading"
   ></app-mainscreen>
 

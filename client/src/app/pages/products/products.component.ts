@@ -87,4 +87,8 @@ export class ProductsComponent implements OnInit {
       this.isLoading = false;
     });
   }
+
+  editProduct(id: number) {
+
+  }
 }

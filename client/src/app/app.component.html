@@ -1,12 +1,13 @@
-      <router-outlet></router-outlet>
 
-<div class=" w-full h-screen flex justify-start overflow-hidden">
+<div [ngClass]="utilsService.darkmode() ? 'dark' : ''" class=" w-full h-screen flex justify-start overflow-hidden">
   <app-side-nav></app-side-nav>
 
   <div class="grow">
     <app-header></app-header>
+      <router-outlet>
 
-<ng-content></ng-content>
+      </router-outlet>
+
   </div>
 </div>
 

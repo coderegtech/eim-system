@@ -89,7 +89,7 @@ model Orders {
 
   product Products? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int?
-  orderDate   DateTime   @default(now())
+  orderedDate   DateTime   @default(now())
   totalAmount Float
   quantity  Int
   status      String

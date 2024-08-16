@@ -15,16 +15,16 @@ export class SuppliersService {
     }
   }
 
-  async createSupplier(createSupplierDto: CreateSupplierDto, res: Response) {
+  async createSupplier(supplierDto: CreateSupplierDto, res: Response) {
     try {
-      const foundSupplier = await this.findOneSupplier(createSupplierDto.email);
+      const foundSupplier = await this.findOneSupplier(supplierDto.email);
 
       if (foundSupplier) {
         return res.status(409).send({ message: 'Supplier already exist' });
       }
 
       const supplier = await this.prisma.suppliers.create({
-        data: { ...createSupplierDto },
+        data: { ...supplierDto },
       });
 
       if (supplier) {

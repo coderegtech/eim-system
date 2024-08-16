@@ -8,15 +8,28 @@ import { User } from '../types/interface.type';
   providedIn: 'root',
 })
 export class AuthService {
+  private baseUrl = 'http://localhost:3000';
+
   constructor(
     private http: HttpClient,
     private router: Router,
   ) {}
-  private baseUrl = 'http://localhost:3000';
 
   loginUser(username: string, password: string): Observable<User> {
     return this.http
       .post<User>(this.baseUrl + '/auth/login', { username, password })
+      .pipe(catchError(this.handleError));
+  }
+
+  createUser(username: string, password: string) {
+    return this.http
+      .post<User>(this.baseUrl + '/auth/signup', { username, password })
+      .pipe(catchError(this.handleError));
+  }
+
+  logoutUser() {
+    return this.http
+      .post(this.baseUrl + '/auth/logout', {})
       .pipe(catchError(this.handleError));
   }
 

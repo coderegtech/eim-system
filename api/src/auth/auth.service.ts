@@ -1,26 +1,113 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+
+  async validateUser(authDto: CreateAuthDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { username: authDto.username },
+    });
+    if (!user && !this.verifyPassword(authDto.password, user.password)) {
+      throw new UnauthorizedException('Invalid Credentials');
+    }
+
+    return user;
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async login(authDto: CreateAuthDto, res: Response) {
+    const foundUser = await this.prisma.user.findUnique({
+      where: { username: authDto.username },
+    });
+    if (foundUser) {
+      throw new BadRequestException('Invalid Credentials');
+    }
+
+    if (!this.verifyPassword(authDto.password, foundUser.password)) {
+      throw new BadRequestException('Wrong password');
+    }
+
+    const payload = {
+      userId: foundUser.userId,
+      sub: {
+        name: foundUser.username,
+      },
+    };
+
+    const token = await this.generateAccessToken(payload);
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    const { password, ...users } = foundUser;
+
+    return res.send({
+      ...users,
+      accessToken: token,
+      refreshToken: await this.refreshToken(payload),
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async createUser({ username, password }: CreateAuthDto, res: Response) {
+    const isUserExist = await this.prisma.user.findUnique({
+      where: { username },
+    });
+    if (isUserExist) {
+      throw new HttpException('User already exist', 409);
+    }
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = await this.prisma.user.create({
+      data: {
+        userId: (new Date().getMilliseconds() * 10).toString(),
+        username,
+        password: hashedPassword,
+      },
+    });
+
+    if (user) {
+      return res
+        .status(HttpStatus.CREATED)
+        .send({ message: 'User created successfully' });
+    }
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  async verifyPassword(password: string, hashedPassword: string) {
+    const result = await bcrypt.compare(password, hashedPassword);
+
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async generateAccessToken(payload: any): Promise<string> {
+    const accessToken = this.jwtService.sign(payload, {
+      secret: `${process.env.jwt_secret}`,
+      expiresIn: '15min',
+    });
+
+    return accessToken;
+  }
+
+  async refreshToken(payload: any): Promise<string> {
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: `${process.env.jwt_secret}`,
+      expiresIn: '7d',
+    });
+
+    return refreshToken;
   }
 }

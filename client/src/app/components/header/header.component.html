@@ -2,8 +2,8 @@
   class="dark:bg-blue-950 dark:text-white text-black/90 bg-white shadow-lg w-full min-h-[65px] flex justify-between items-center px-5 z-50 border-b-4 border-blue-900">
   <h1 class="text-xl">ECOMMERCE INVENTORY MANAGEMENT SYSTEM</h1>
 
-  <div class="flex items-center gap-3">
-    <span>
+  <div class="flex items-center gap-3 cursor-pointer">
+    <span (click)="utilsService.toggleDarkmode()">
       <fa-icon class="text-base" [icon]="faSun"></fa-icon>
     </span>
 

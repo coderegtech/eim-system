@@ -7,8 +7,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthComponent } from './auth/auth.component';
-import { AuthModule } from './auth/auth.module';
 import { AlertboxComponent } from './components/alertbox/alertbox.component';
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -54,10 +52,8 @@ import { SuppliersService } from './services/suppliers.service';
     AddCategoryComponent,
     AddSupplierComponent,
     AddCustomerComponent,
-    AuthComponent,
   ],
   imports: [
-    AuthModule,
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,

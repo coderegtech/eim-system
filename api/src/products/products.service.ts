@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
@@ -118,24 +119,22 @@ export class ProductsService {
     }
   }
 
-  async removeProduct(id: number): Promise<any> {
-    await this.prisma.products
-      .delete({
+  async removeProduct(id: number): Promise<Product> {
+    try {
+      const product = await this.prisma.products.delete({
         where: { id },
-      })
-      .then((res: any) => {
-        console.log(res);
+      });
 
-        const filename = res.productImg;
-
-        const filePath = '../../uploads/productsImg/' + filename;
+      if (product) {
+        const productImgName = product.productImg;
+        const filePath = '../../uploads/productsImg/' + productImgName;
         fs.unlinkSync(filePath);
 
-        return res;
-      })
-      .catch((error) => {
-        throw new BadRequestException(error.message);
-      });
+        return product;
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async productsCount() {

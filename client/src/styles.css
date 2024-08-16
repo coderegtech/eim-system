@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  @apply transition-colors duration-200
+  @apply transition-colors duration-100
 }
 
 ::-webkit-scrollbar {
@@ -27,13 +27,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 div:where(.swal2-container) div:where(.swal2-actions) {
     gap: 1rem !important;
-}
-
-
-/* media query */
-/* when screen reach below the max-width of 1320px */
-@media (max-width: 1320px) {
-.media-screen {
-  width: calc(100dvw - 3.5rem);
-}
 }

@@ -19,11 +19,11 @@ export class CategoriesService {
 
   async createCategories(
     res: Response,
-    createCategoryDto: CreateCategoryDto,
+    categoryDto: CreateCategoryDto,
   ): Promise<any> {
     try {
       const isCategoryExist = await this.prisma.categories.findUnique({
-        where: { name: createCategoryDto.name },
+        where: { name: categoryDto.name },
       });
       if (isCategoryExist) {
         return res
@@ -33,8 +33,8 @@ export class CategoriesService {
 
       const category = await this.prisma.categories.create({
         data: {
-          name: createCategoryDto.name,
-          description: createCategoryDto.description,
+          name: categoryDto.name,
+          description: categoryDto.description,
         },
       });
 

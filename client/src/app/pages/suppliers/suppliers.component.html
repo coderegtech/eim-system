@@ -10,7 +10,8 @@
         [tableData]="supplierService.suppliers()"
         [hasImage]="false"
         [dataItems]="dataItems"
-        (selectedItemId)="removeSupplier($event)"
+        (removedItemId)="removeSupplier($event)"
+        (editedItemId)="editSupplier($event)"
         (inputTextValue)="getInputValue($event)"
       ></app-mainscreen>
 

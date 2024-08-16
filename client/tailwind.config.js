@@ -7,7 +7,7 @@ module.exports = {
         'vh': 'calc(100vh - 15rem)',
       },
       width: {
-        'vw': 'calc(100vw - 14rem)',
+        'vw': 'calc(100dvw - 3.5rem)',
       }
     },
   },

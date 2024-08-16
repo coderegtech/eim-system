@@ -24,23 +24,24 @@ export class MainscreenComponent {
 
   inputValue: string = '';
   @Output() inputTextValue = new EventEmitter<string>();
-  @Output() selectedItemId = new EventEmitter<number>();
+  @Output() editedItemId = new EventEmitter<number>();
+  @Output() removedItemId = new EventEmitter<number>();
+
+  constructor(private modalService: ModalService) {}
 
   searchItem() {
     this.inputTextValue.emit(this.inputValue);
   }
-
-  constructor(private modalService: ModalService) {}
 
   openModal() {
     this.modalService.setActiveModal(true);
   }
 
   delBtn(id: number) {
-    this.selectedItemId.emit(id);
+    this.removedItemId.emit(id);
   }
 
   editBtn(id: number) {
-    this.selectedItemId.emit(id);
+    this.editedItemId.emit(id);
   }
 }
