@@ -7,12 +7,12 @@ import {
   Patch,
   Post,
   Query,
-  Response,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -20,7 +20,7 @@ export class CategoriesController {
   @Post('create')
   async createCategory(
     @Body() createCategoryDto: CreateCategoryDto,
-    @Response() res,
+    @Res() res: Response,
   ) {
     return await this.categoriesService.createCategories(
       res,

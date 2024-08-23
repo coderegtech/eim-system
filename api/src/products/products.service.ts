@@ -79,6 +79,36 @@ export class ProductsService {
     }
   }
 
+  async filteredByCategory(name: string): Promise<any[]> {
+    try {
+      return await this.prisma.products.findMany({
+        where: {
+          category: {
+            name: {
+              contains: name,
+            },
+          },
+        },
+        include: {
+          category: {
+            select: {
+              name: true,
+            },
+          },
+          supplier: {
+            select: {
+              supplierName: true,
+              city: true,
+              country: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async searchProduct(name: string): Promise<any[]> {
     try {
       return await this.prisma.products.findMany({

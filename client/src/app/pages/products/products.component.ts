@@ -88,6 +88,24 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  filterByCategory(category: string) {
+     this.productsService.filterCategories(category).subscribe((res: any) => {
+       if (res) {
+          this.productsService.products.update(() =>
+          this.productsService
+            .products()
+            .filter((item) => item.id === res.id),
+        );
+        
+         this.isLoading = false;
+       }
+
+       //  if no category found
+       this.productsService.products.update(() => []);
+       this.isLoading = false;
+     });
+  }
+
   editProduct(id: number) {
 
   }

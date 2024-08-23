@@ -34,6 +34,7 @@
         <select
           id="category"
           class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          (change)="categoryFilter($event)"
         >
           <option disabled selected value="">{{ filterName }}</option>
           <option value="all">All</option>
@@ -133,7 +134,8 @@
           <td class="px-6 py-4" *ngFor="let item of dataItems">
             <p class="whitespace-nowrap">
               {{data[item].length >= 30 ? 
-                data[item].substring(0, 30) + "..." : data[item]}}
+                data[item].substring(0, 30) + "..." : item === 'price' ?
+                formatNumberWithCurrency(data['price'], 'PHP') : data[item]}}
             </p>
           </td>
 

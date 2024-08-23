@@ -5,14 +5,13 @@ import { AuthService } from '../auth.service';
 
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    super({ usernameFiled: 'username' });
+    super();
   }
 
-  validate(username: string, password: string) {
-    const user = this.authService.validateUser({ username, password });
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+  async validate(username: string, password: string) {
+    console.log('Inside LocalStrategy');
+    const user = await this.authService.validateUser({ username, password });
+    if (!user) throw new UnauthorizedException();
     return user;
   }
 }

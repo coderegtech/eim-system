@@ -19,18 +19,26 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { username: authDto.username },
     });
-    if (!user && !this.verifyPassword(authDto.password, user.password)) {
-      throw new UnauthorizedException('Invalid Credentials');
-    }
 
-    return user;
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const isValidPassword = await this.verifyPassword(
+      authDto.password,
+      user.password,
+    );
+    if (!isValidPassword) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const { password, ...result } = user;
+    return this.jwtService.sign(result);
   }
 
   async login(authDto: CreateAuthDto, res: Response) {
     const foundUser = await this.prisma.user.findUnique({
       where: { username: authDto.username },
     });
-    if (foundUser) {
+    if (!foundUser) {
       throw new BadRequestException('Invalid Credentials');
     }
 

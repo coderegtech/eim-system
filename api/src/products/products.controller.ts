@@ -73,6 +73,11 @@ export class ProductsController {
     return this.productsService.searchProduct(name);
   }
 
+  @Get('filter')
+  filterCategory(@Query('category') name: string) {
+    return this.productsService.filteredByCategory(name);
+  }
+
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateProductDto: UpdateProductDto) {
     return this.productsService.updateProduct(id, updateProductDto);

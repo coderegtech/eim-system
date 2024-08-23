@@ -39,6 +39,12 @@ export class ProductsService {
       .pipe(catchError(this.handleError));
   }
 
+  filterCategories(category: string): Observable<Product[]> {
+    return this.http
+      .get<Product[]>(this.baseUrl + `/filter?category=${category}`)
+      .pipe(catchError(this.handleError));
+  }
+
   deleteProduct(id: number): Observable<Product> {
     return this.http
       .delete<Product>(`${this.baseUrl}/delete/${id}`)

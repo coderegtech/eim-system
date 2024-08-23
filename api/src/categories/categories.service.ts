@@ -65,7 +65,9 @@ export class CategoriesService {
   async searchCategory(name: string): Promise<Category[]> {
     try {
       const category = await this.prisma.categories.findUnique({
-        where: { name },
+        where: {
+          name,
+        },
       });
 
       if (!category) {

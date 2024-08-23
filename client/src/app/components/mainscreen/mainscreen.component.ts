@@ -26,8 +26,26 @@ export class MainscreenComponent {
   @Output() inputTextValue = new EventEmitter<string>();
   @Output() editedItemId = new EventEmitter<number>();
   @Output() removedItemId = new EventEmitter<number>();
+  @Output() selectedCategory = new EventEmitter<string>();
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService) {
+  }
+
+  formatNumberWithCurrency(number: number, currencySymbol: string) {
+  const formattedNumber = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currencySymbol,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(number);
+
+  return formattedNumber;
+}
+
+  categoryFilter(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedCategory.emit(target?.value)
+  }
 
   searchItem() {
     this.inputTextValue.emit(this.inputValue);
