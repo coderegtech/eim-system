@@ -12,7 +12,7 @@
     [tableData]="productsService.products()"
     [hasImage]="true"
     [dataItems]="dataItems"
-    (inputTextValue)="getInputValue($event)"
+    (inputTextValue)="searchProduct($event)"
             (removedItemId)="removeProduct($event)"
             (editedItemId)="editProduct($event)"
     (selectedCategory)="filterByCategory($event)"

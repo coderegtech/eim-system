@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
@@ -7,6 +8,9 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./mainscreen.component.css'],
 })
 export class MainscreenComponent {
+  faAngleLeft = faAngleLeft
+  faAngleRight = faAngleRight
+
   @Input({ required: true }) title!: string;
   @Input({ required: true }) inputPlaceHolder!: string;
   @Input({ required: true }) dataCounts!: number;

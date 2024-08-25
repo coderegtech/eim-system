@@ -51,7 +51,6 @@ export class ProductsComponent implements OnInit {
   getProducts() {
     this.isLoading = true;
 
-    // fetch categories
     this.productsService.getAllProducts().subscribe((res: any) => {
       this.productsService.products.set(res);
       this.isLoading = false;
@@ -71,8 +70,9 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  getInputValue(value: string) {
-    this.productsService.searchProduct(value).subscribe((res: any) => {
+  searchProduct(value: string) {
+    this.productsService.searchProduct(value).subscribe({
+      next: (res: any) => {
       if (res) {
         this.productsService.products.update(() =>
           this.productsService
@@ -81,29 +81,22 @@ export class ProductsComponent implements OnInit {
         );
         this.isLoading = false;
       }
-
-      //  if no category found
-      this.productsService.products.update(() => []);
-      this.isLoading = false;
-    });
+    },error: (error: any) => {
+      console.error(error.message)
+    }});
   }
 
   filterByCategory(category: string) {
-     this.productsService.filterCategories(category).subscribe((res: any) => {
+    this.productsService.filterCategories(category).subscribe({
+      next: (res: any) => {
        if (res) {
-          this.productsService.products.update(() =>
-          this.productsService
-            .products()
-            .filter((item) => item.id === res.id),
-        );
-        
+          this.productsService.products.update(() => res);
          this.isLoading = false;
        }
-
-       //  if no category found
-       this.productsService.products.update(() => []);
-       this.isLoading = false;
-     });
+      },
+      error: (error: any) => {
+      console.error(error.message)
+    }});
   }
 
   editProduct(id: number) {
