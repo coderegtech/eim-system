@@ -1,6 +1,7 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
+import * as path from 'path';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -153,17 +154,28 @@ export class ProductsService {
 
   async removeProduct(id: number): Promise<Product> {
     try {
-      const product = await this.prisma.products.delete({
+      const product = await this.prisma.products.findUnique({
         where: { id },
       });
 
-      if (product) {
-        const productImgName = product.productImg;
-        const filePath = '../../uploads/productsImg/' + productImgName;
-        fs.unlinkSync(filePath);
-
-        return product;
+      if (!product) {
+        throw new BadRequestException('Product not found');
       }
+      // remove the selected  product
+      await this.prisma.products.delete({
+        where: { id: product.id },
+      });
+
+      const productImgName = product.productImg;
+      const filePath = path.join(
+        __dirname,
+        '../../uploads/productsImgs/',
+        productImgName,
+      );
+      // Delete the associated image file
+      await fs.promises.unlink(filePath);
+
+      return product;
     } catch (error) {
       throw new BadRequestException(error.message);
     }

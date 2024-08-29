@@ -8,8 +8,8 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./mainscreen.component.css'],
 })
 export class MainscreenComponent {
-  faAngleLeft = faAngleLeft
-  faAngleRight = faAngleRight
+  faAngleLeft = faAngleLeft;
+  faAngleRight = faAngleRight;
 
   @Input({ required: true }) title!: string;
   @Input({ required: true }) inputPlaceHolder!: string;
@@ -32,23 +32,22 @@ export class MainscreenComponent {
   @Output() removedItemId = new EventEmitter<number>();
   @Output() selectedCategory = new EventEmitter<string>();
 
-  constructor(private modalService: ModalService) {
-  }
+  constructor(private modalService: ModalService) {}
 
   formatNumberWithCurrency(number: number, currencySymbol: string) {
-  const formattedNumber = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currencySymbol,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(number);
+    const formattedNumber = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencySymbol,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number);
 
-  return formattedNumber;
-}
+    return formattedNumber;
+  }
 
   categoryFilter(event: Event) {
     const target = event.target as HTMLSelectElement;
-    this.selectedCategory.emit(target?.value)
+    this.selectedCategory.emit(target?.value);
   }
 
   searchItem() {

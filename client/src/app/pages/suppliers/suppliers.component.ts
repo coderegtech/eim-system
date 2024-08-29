@@ -1,6 +1,8 @@
 import { Component, effect, OnInit } from '@angular/core';
 import { SuppliersService } from 'src/app/services/suppliers.service';
+import { ErrorType } from 'src/app/types/interface.type';
 import { toastify } from 'src/app/utils';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-suppliers',
@@ -54,20 +56,29 @@ export class SuppliersComponent implements OnInit {
   }
 
   removeSupplier(id: number) {
-    this.supplierService.deleteSupplier(id).subscribe((res: any) => {
+     toastify("Supplier deleted", () => {
+    this.supplierService.deleteSupplier(id).subscribe({
+      next: (res: any) => {
       if (res.status === 'success') {
-        toastify(res.message, () => {
           // filter current data to remove the specific item
           this.supplierService.suppliers.update(() =>
             this.supplierService.suppliers().filter((item) => item.id !== id),
           );
-        });
       }
-    });
+    } , error: (error: ErrorType) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: error.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }});
+        });
+
   }
 
-  editSupplier(id: number) {
-  }
+  editSupplier(id: number) {}
 
   getInputValue(value: string) {
     this.searchProductsInput = value;

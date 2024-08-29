@@ -14,9 +14,6 @@ export class HeaderComponent {
   faBell = faBell;
   faChevronDown = faChevronDown;
   faSun = faSun;
-  
-  constructor(public utilsService: UtilsService) {
-    
-  }
 
+  constructor(public utilsService: UtilsService) {}
 }

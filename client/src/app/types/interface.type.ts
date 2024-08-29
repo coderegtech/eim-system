@@ -55,3 +55,9 @@ export interface Order {
   quantity: number;
   orderDate: Date;
 }
+
+// error handling types
+export interface ErrorType {
+  message: string;
+  statusCode?: number;
+}

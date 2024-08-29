@@ -18,6 +18,7 @@
         type="text"
         [placeholder]="inputPlaceHolder + '...'"
         [(ngModel)]="inputValue"
+       (input)="searchItem()"
       />
       <button
         [disabled]="!inputValue"
@@ -68,23 +69,23 @@
 
   <!-- Items table -->
   <div
-    class="relative wfull h-vh overflow-auto rounded-lg bg-white dark:border-neutral-800 border border-gray-200 shadow-md"
+    class="relative w-full h-vh overflow-auto rounded-lg dark:bg-gray-950 bg-white dark:border-neutral-800 border border-gray-200 shadow-md"
   >
     <!-- Items list -->
     <table
-      class=" w-full border-collapse bg-white text-left text-sm text-gray-500"
+      class=" w-full border-collapse dark:bg-gray-950 bg-white text-left text-sm text-gray-500"
     >
-      <thead class="bg-gray-50 sticky top-0 left-0">
+      <thead class="dark:bg-gray-950 bg-gray-50  sticky top-0 left-0">
         <tr>
           <th
             scope="col"
-            class="w-[50px] px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+            class="w-[50px] px-6 py-4 font-normal dark:text-white text-gray-900 whitespace-nowrap"
           >
             No.
           </th>
           <th
             scope="col"
-            class="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+            class="px-6 py-4 font-normal dark:text-white text-gray-900 whitespace-nowrap"
             *ngFor="let item of tableHeadNames"
           >
             {{ item }}
@@ -92,7 +93,7 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+      <tbody class="divide-y dark:divide-white/10 divide-gray-100 border-t border-white/30">
         <div
           class="flex flex-col items-center justify-center absolute -translate-x-1/2 -translate-y- left-1/2 top-1/2"
         >
@@ -100,7 +101,7 @@
          <span *ngIf="isLoading"><app-loader></app-loader></span>
 
           <span
-            class="text-black  text-xl"
+            class="dark:text-white text-black  text-xl"
             *ngIf="tableData.length === 0 || tableData === null"
             >No {{ title.toLocaleLowerCase() }} available</span
           >
@@ -110,7 +111,7 @@
 
         <tr
           *ngFor="let data of tableData; let i = index"
-          class="w-full h-full hover:bg-gray-50"
+          class="w-full h-full dark:hover:bg-blue-950 hover:bg-gray-50"
         >
           <td class="px-7 py-4">
             <p>
@@ -132,7 +133,7 @@
             </div>
           </td>
           <td class="px-6 py-4" *ngFor="let item of dataItems">
-            <p class="whitespace-nowrap">
+            <p class="whitespace-nowrap dark:text-neutral-300 ">
               {{data[item].length >= 30 ? 
                 data[item].substring(0, 30) + "..." : item === 'price' ?
                 formatNumberWithCurrency(data['price'], 'PHP') : data[item]}}
@@ -168,7 +169,7 @@
 
               <svg
                 (click)="editBtn(data.id)"
-                class="cursor-pointer"
+                class="cursor-pointer dark:fill-white "
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
                 viewBox="0 0 512 512"
@@ -184,7 +185,7 @@
     </table>
 
     <!-- pagination -->
-     <div class="w-full p-3 bg-white border border-t border-black/5 flex justify-end items-center absolute bottom-0 left-0">
+     <div class="absolute bottom-0 right-0 left-0 w-full p-3 dark:bg-black/50 bg-white border border-t border-black/5 flex justify-end items-center ">
 <nav aria-label="Page navigation example" >
   <ul class="inline-flex -space-x-px text-sm">
     <li>

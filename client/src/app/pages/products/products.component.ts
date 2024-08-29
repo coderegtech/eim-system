@@ -2,7 +2,9 @@ import { Component, effect, OnInit } from '@angular/core';
 
 import { CategoryService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { ErrorType } from 'src/app/types/interface.type';
 import { toastify } from 'src/app/utils';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -30,12 +32,11 @@ export class ProductsComponent implements OnInit {
     effect(() => {
       this.productsService.products();
 
-
- // products count
-    this.productsService.productCount().subscribe((res: any) => {
-      this.productsCount = res;
+      // products count
+      this.productsService.productCount().subscribe((res: any) => {
+        this.productsCount = res;
+      });
     });
-    })
   }
 
   ngOnInit(): void {
@@ -58,48 +59,72 @@ export class ProductsComponent implements OnInit {
   }
 
   removeProduct(id: number) {
-    this.productsService.deleteProduct(id).subscribe((res: any) => {
-      if (res) {
-        toastify('Product deleted', () => {
-          // filter current data to remove the specific item
-          this.productsService.products.update(() =>
-            this.productsService.products().filter((item) => item.id !== id),
-          );  
+
+     toastify('Product deleted', () => {
+        this.productsService.deleteProduct(id).subscribe({
+          next: (res: any) => {
+            if (res) {
+                this.productsService.products.update(() =>
+                  this.productsService
+                    .products()
+                    .filter((item) => item.id !== id),
+                );
+            }
+          },
+          error: (error: ErrorType) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: error.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          },
         });
-      }
-    });
+     });
+
+   
   }
 
   searchProduct(value: string) {
     this.productsService.searchProduct(value).subscribe({
       next: (res: any) => {
-      if (res) {
-        this.productsService.products.update(() =>
-          this.productsService
-            .products()
-            .filter((item) => item.name === res.name),
-        );
-        this.isLoading = false;
-      }
-    },error: (error: any) => {
-      console.error(error.message)
-    }});
+        if (res) {
+          this.productsService.products.update(() => res);
+          this.isLoading = false;
+        }
+      },
+      error: (error: ErrorType) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: error.message,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      },
+    });
   }
 
   filterByCategory(category: string) {
     this.productsService.filterCategories(category).subscribe({
       next: (res: any) => {
-       if (res) {
+        if (res) {
           this.productsService.products.update(() => res);
-         this.isLoading = false;
-       }
+          this.isLoading = false;
+        }
       },
-      error: (error: any) => {
-      console.error(error.message)
-    }});
+      error: (error: ErrorType) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: error.message,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      },
+    });
   }
 
-  editProduct(id: number) {
-
-  }
+  editProduct(id: number) {}
 }

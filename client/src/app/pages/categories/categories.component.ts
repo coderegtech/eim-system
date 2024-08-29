@@ -1,6 +1,8 @@
 import { Component, effect, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/categories.service';
+import { ErrorType } from 'src/app/types/interface.type';
 import { toastify } from 'src/app/utils';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -58,20 +60,31 @@ export class CategoriesComponent implements OnInit {
   }
 
   removeCategory(id: number) {
-    this.categoryService.deleteCategory(id).subscribe((res: any) => {
+     toastify('Category deleted', () => {
+       this.categoryService.deleteCategory(id).subscribe({
+      next: (res: any) => {
       if (res) {
-        toastify('Category deleted', () => {
+       
           // filter current data to remove the specific item
           this.categoryService.categories.update(() =>
             this.categoryService.categories().filter((item) => item.id !== id),
           );
-        });
       }
-    });
+    },  error: (error: ErrorType) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: error.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          },});
+        });
+
   }
 
   editCategory(id: number) {
-    alert(id)
+    alert(id);
   }
 
   getInputValue(value: string) {

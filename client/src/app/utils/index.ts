@@ -32,3 +32,12 @@ export const toastify = (delText: string, externalFunction: () => void) => {
     });
 };
 
+// export const alert_toastify = (message: string, status: string) => {
+//   Swal.fire<any>({
+//     position: 'center',
+//     icon: `${status}`,
+//     title: message,
+//     showConfirmButton: false,
+//     timer: 2000,
+//   });
+// };

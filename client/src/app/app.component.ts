@@ -9,7 +9,5 @@ import { UtilsService } from './services/utils.service';
 export class AppComponent {
   title = 'client';
 
-  constructor(public utilsService: UtilsService) {
-  }
-
+  constructor(public utilsService: UtilsService) {}
 }

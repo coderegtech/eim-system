@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { CategoryService } from 'src/app/services/categories.service';
 import { ModalService } from 'src/app/services/modal.service';
+import { ErrorType } from 'src/app/types/interface.type';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -34,7 +35,8 @@ export class AddCategoryComponent {
 
     this.categoryService
       .addCategory(this.categoryForm.value)
-      .subscribe((res: any) => {
+      .subscribe({ 
+        next: (res: any) => {
         // set data response data to category signal
         this.categoryService.categories.set([
           ...this.categoryService.categories(),
@@ -46,14 +48,22 @@ export class AddCategoryComponent {
         // clear input fields
         this.clearInputs();
 
+       Swal.fire({
+             position: 'center',
+             icon: 'success',
+             title: res.message,
+             showConfirmButton: false,
+             timer: 2000,
+           });
+      }, error: (error: ErrorType) => {
         Swal.fire({
-          position: 'center',
-          icon: res.status,
-          title: res.message,
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      });
+             position: 'center',
+             icon: 'error',
+             title: error.message,
+             showConfirmButton: false,
+             timer: 2000,
+           });
+      }});
   }
 
   closeModal() {

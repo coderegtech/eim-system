@@ -5,6 +5,7 @@ import { CategoryService } from 'src/app/services/categories.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { SuppliersService } from 'src/app/services/suppliers.service';
+import { ErrorType } from 'src/app/types/interface.type';
 
 import Swal from 'sweetalert2';
 
@@ -18,6 +19,7 @@ export class AddProductComponent implements OnInit {
   message: string = '';
   status: string = '';
   activeModal: boolean = false;
+  isLoading: boolean = false;
 
   files: File[] = [];
   productForm = new FormGroup({
@@ -56,16 +58,20 @@ export class AddProductComponent implements OnInit {
 
   submitForm(event: Event) {
     event.preventDefault();
+    this.isLoading = true
     this.productService
       .addProduct(this.productForm.value, this.files[0])
       .subscribe({
         next: (res: any) => {
-          if (res.status === 'success') {
+
             // set data response data to category signal
             this.productService.products.set([
               ...this.productService.products(),
               res.data,
             ]);
+
+            this.isLoading = false
+
             // disable form when process
             this.closeModal();
 
@@ -79,10 +85,16 @@ export class AddProductComponent implements OnInit {
               showConfirmButton: false,
               timer: 2000,
             });
-          }
+
         },
-        error: (error) => {
-          console.error(error.message);
+        error: (error: ErrorType) => {
+           Swal.fire({
+             position: 'center',
+             icon: 'error',
+             title: error.message,
+             showConfirmButton: false,
+             timer: 2000,
+           });
         },
       });
   }
@@ -105,5 +117,7 @@ export class AddProductComponent implements OnInit {
 
   clearInputs() {
     this.productForm.reset();
+    // clear image
+    this.files.splice(0, 1);
   }
 }
