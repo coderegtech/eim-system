@@ -143,6 +143,7 @@
           <td class="px-6 py-4">
             <div class="flex justify-end items-center gap-4">
               <svg
+                (click)="viewBtn(data.id)"
                 class="cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
@@ -219,3 +220,5 @@
      </div>
   </div>
 </div>
+
+<app-show-item-data [selectedId]="viewedItemId"></app-show-item-data>

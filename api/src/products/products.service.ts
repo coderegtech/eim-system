@@ -82,6 +82,10 @@ export class ProductsService {
 
   async filteredByCategory(name: string): Promise<any[]> {
     try {
+      if (name === 'all') {
+        return await this.getAllProducts();
+      }
+
       return await this.prisma.products.findMany({
         where: {
           category: {

@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from 'src/app/services/modal.service';
-
 @Component({
   selector: 'app-mainscreen',
   templateUrl: './mainscreen.component.html',
   styleUrls: ['./mainscreen.component.css'],
 })
-export class MainscreenComponent {
+export class MainscreenComponent implements OnInit {
+
   faAngleLeft = faAngleLeft;
   faAngleRight = faAngleRight;
 
@@ -27,12 +27,15 @@ export class MainscreenComponent {
   @Input() isLoading?: boolean;
 
   inputValue: string = '';
+  viewedItemId?: number;
+
   @Output() inputTextValue = new EventEmitter<string>();
   @Output() editedItemId = new EventEmitter<number>();
   @Output() removedItemId = new EventEmitter<number>();
   @Output() selectedCategory = new EventEmitter<string>();
 
   constructor(private modalService: ModalService) {}
+  ngOnInit(): void {}
 
   formatNumberWithCurrency(number: number, currencySymbol: string) {
     const formattedNumber = new Intl.NumberFormat('en-US', {
@@ -54,8 +57,9 @@ export class MainscreenComponent {
     this.inputTextValue.emit(this.inputValue);
   }
 
-  openModal() {
-    this.modalService.setActiveModal(true);
+  viewBtn(id: number) {
+    this.viewedItemId = id
+    console.log(id)
   }
 
   delBtn(id: number) {
@@ -64,5 +68,9 @@ export class MainscreenComponent {
 
   editBtn(id: number) {
     this.editedItemId.emit(id);
+  }
+
+    openModal() {
+    this.modalService.setActiveModal(true);
   }
 }

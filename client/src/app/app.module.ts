@@ -31,6 +31,7 @@ import { ModalService } from './services/modal.service';
 import { OrdersService } from './services/orders.service';
 import { ProductsService } from './services/products.service';
 import { SuppliersService } from './services/suppliers.service';
+import { ShowItemDataComponent } from './components/modals/show-item-data/show-item-data.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { SuppliersService } from './services/suppliers.service';
     AddCategoryComponent,
     AddSupplierComponent,
     AddCustomerComponent,
+    ShowItemDataComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,8 +16,6 @@ import Swal from 'sweetalert2';
 })
 export class AddProductComponent implements OnInit {
   faXmark = faXmark;
-  message: string = '';
-  status: string = '';
   activeModal: boolean = false;
   isLoading: boolean = false;
 

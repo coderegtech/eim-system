@@ -82,8 +82,6 @@ export class ProductsComponent implements OnInit {
           },
         });
      });
-
-   
   }
 
   searchProduct(value: string) {
