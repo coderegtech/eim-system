@@ -17,7 +17,7 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   login(@Body() authDto: CreateAuthDto, @Req() req: Request) {
-    return req.user;
+    return this.authService.validateUser(authDto);
   }
 
   @Post('signup')

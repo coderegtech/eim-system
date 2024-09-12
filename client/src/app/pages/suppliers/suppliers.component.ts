@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class SuppliersComponent implements OnInit {
   suppliersCount: number = 0;
+  isLoading = false;
   searchProductsInput!: string;
 
   tableHeadNames: string[] = [
@@ -50,8 +51,12 @@ export class SuppliersComponent implements OnInit {
   }
 
   getAllSuppliers() {
+    this.isLoading = true;
+
     this.supplierService.getAllSuppliers().subscribe((res: any) => {
       this.supplierService.suppliers.set(res);
+    this.isLoading = false;
+
     });
   }
 
@@ -59,12 +64,10 @@ export class SuppliersComponent implements OnInit {
      toastify("Supplier deleted", () => {
     this.supplierService.deleteSupplier(id).subscribe({
       next: (res: any) => {
-      if (res.status === 'success') {
           // filter current data to remove the specific item
           this.supplierService.suppliers.update(() =>
             this.supplierService.suppliers().filter((item) => item.id !== id),
           );
-      }
     } , error: (error: ErrorType) => {
             Swal.fire({
               position: 'center',
