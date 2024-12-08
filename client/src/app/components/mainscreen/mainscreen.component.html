@@ -1,4 +1,4 @@
-<div class="dark:bg-blue-950 dark:text-white w-vw p-5 relative overflow-hidden ">
+<div class="dark:bg-blue-950 dark:text-white w-vw p-5 relative overflow-hidden">
   <div class="w-full flex justify-between">
     <div class="leading-3">
       <h2 class="text-2xl font-semibold">{{ title }}</h2>
@@ -18,7 +18,7 @@
         type="text"
         [placeholder]="inputPlaceHolder + '...'"
         [(ngModel)]="inputValue"
-       (input)="searchItem()"
+        (input)="searchItem()"
       />
       <button
         [disabled]="!inputValue"
@@ -34,7 +34,7 @@
       <div class="relative" *ngIf="hasFilter">
         <select
           id="category"
-          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white  rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          class="block w-full py-2 pl-3 pr-10 text-gray-900 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           (change)="categoryFilter($event)"
         >
           <option disabled selected value="">{{ filterName }}</option>
@@ -73,9 +73,9 @@
   >
     <!-- Items list -->
     <table
-      class=" w-full border-collapse dark:bg-gray-950 bg-white text-left text-sm text-gray-500"
+      class="w-full border-collapse dark:bg-gray-950 bg-white text-left text-sm text-gray-500"
     >
-      <thead class="dark:bg-gray-950 bg-gray-50  sticky top-0 left-0">
+      <thead class="dark:bg-gray-950 bg-gray-50 sticky top-0 left-0">
         <tr>
           <th
             scope="col"
@@ -93,20 +93,19 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
-      <tbody class="divide-y dark:divide-white/10 divide-gray-100 border-t border-white/30">
+      <tbody
+        class="divide-y dark:divide-white/10 divide-gray-100 border-t border-white/30"
+      >
         <div
           class="flex flex-col items-center justify-center absolute -translate-x-1/2 -translate-y- left-1/2 top-1/2"
         >
-
-         <span *ngIf="isLoading"><app-loader></app-loader></span>
+          <span *ngIf="isLoading"><app-loader></app-loader></span>
 
           <span
-            class="dark:text-white text-black  text-xl"
+            class="dark:text-white text-black text-xl"
             *ngIf="tableData.length === 0 || tableData === null"
             >No {{ title.toLocaleLowerCase() }} available</span
           >
-
-         
         </div>
 
         <tr
@@ -133,10 +132,14 @@
             </div>
           </td>
           <td class="px-6 py-4" *ngFor="let item of dataItems">
-            <p class="whitespace-nowrap dark:text-neutral-300 ">
-              {{data[item].length >= 30 ? 
-                data[item].substring(0, 30) + "..." : item === 'price' ?
-                formatNumberWithCurrency(data['price'], 'PHP') : data[item]}}
+            <p class="whitespace-nowrap dark:text-neutral-300">
+              {{
+                data[item].length >= 30
+                  ? data[item].substring(0, 30) + "..."
+                  : item === "price"
+                    ? formatNumberWithCurrency(data["price"], "PHP")
+                    : data[item]
+              }}
             </p>
           </td>
 
@@ -170,7 +173,7 @@
 
               <svg
                 (click)="editBtn(data.id)"
-                class="cursor-pointer dark:fill-white "
+                class="cursor-pointer dark:fill-white"
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
                 viewBox="0 0 512 512"
@@ -184,40 +187,67 @@
         </tr>
       </tbody>
     </table>
-
-    <!-- pagination -->
-     <div class="absolute bottom-0 right-0 left-0 w-full p-3 dark:bg-black/50 bg-white border border-t border-black/5 flex justify-end items-center ">
-<nav aria-label="Page navigation example" >
-  <ul class="inline-flex -space-x-px text-sm">
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500  rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+  </div>
+  <!-- pagination -->
+  <div
+    class="w-full p-3 dark:bg-black/50 bg-white border border-t border-black/5 flex justify-end items-center"
+  >
+    <nav aria-label="Page navigation example">
+      <ul class="inline-flex -space-x-px text-sm">
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
             <fa-icon [icon]="faAngleLeft"></fa-icon>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-    </li>
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-    </li>
-    <li>
-      <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600  bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-    </li>
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-    </li>
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500  hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-    </li>
-    <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500  rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >1</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >2</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            aria-current="page"
+            class="flex items-center justify-center px-3 h-8 text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+            >3</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >4</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >5</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
             <fa-icon [icon]="faAngleRight"></fa-icon>
-
-      </a>
-    </li>
-  </ul>
-</nav>
-     </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 

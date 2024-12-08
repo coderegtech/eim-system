@@ -54,38 +54,37 @@ export class ProductsComponent implements OnInit {
 
     this.productsService.getAllProducts().subscribe((res: any) => {
       this.productsService.products.set(res);
-      console.log(res)
+      console.log(res);
       this.isLoading = false;
     });
   }
 
   removeProduct(id: number) {
-
-     toastify('Product deleted', () => {
-        this.productsService.deleteProduct(id).subscribe({
-          next: (res: any) => {
-            if (res) {
-                this.productsService.products.update(() =>
-                  this.productsService
-                    .products()
-                    .filter((item) => item.id !== id),
-                );
-            }
-          },
-          error: (error: ErrorType) => {
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              title: error.message,
-              showConfirmButton: false,
-              timer: 2000,
-            });
-          },
-        });
-     });
+    toastify('Product deleted', () => {
+      this.productsService.deleteProduct(id).subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.productsService.products.update(() =>
+              this.productsService.products().filter((item) => item.id !== id),
+            );
+          }
+        },
+        error: (error: ErrorType) => {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: error.message,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        },
+      });
+    });
   }
 
   searchProduct(value: string) {
+    this.isLoading = true;
+
     this.productsService.searchProduct(value).subscribe({
       next: (res: any) => {
         if (res) {
@@ -106,6 +105,8 @@ export class ProductsComponent implements OnInit {
   }
 
   filterByCategory(category: string) {
+    this.isLoading = true;
+
     this.productsService.filterCategories(category).subscribe({
       next: (res: any) => {
         if (res) {
