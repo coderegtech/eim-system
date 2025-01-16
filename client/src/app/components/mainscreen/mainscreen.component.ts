@@ -7,7 +7,6 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./mainscreen.component.css'],
 })
 export class MainscreenComponent implements OnInit {
-
   faAngleLeft = faAngleLeft;
   faAngleRight = faAngleRight;
 
@@ -58,8 +57,8 @@ export class MainscreenComponent implements OnInit {
   }
 
   viewBtn(id: number) {
-    this.viewedItemId = id
-    console.log(id)
+    this.viewedItemId = id;
+    console.log(id);
   }
 
   delBtn(id: number) {
@@ -70,7 +69,7 @@ export class MainscreenComponent implements OnInit {
     this.editedItemId.emit(id);
   }
 
-    openModal() {
+  openModal() {
     this.modalService.setActiveModal(true);
   }
 }

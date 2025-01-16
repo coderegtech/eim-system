@@ -5,6 +5,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MainComponent } from './pages/main/main.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { ProductsComponent } from './pages/products/products.component';
@@ -17,42 +18,45 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
-  },
-  {
-    path: 'products',
-    component: ProductsComponent,
-  },
-  {
-    path: 'orders',
-    component: OrdersComponent,
-  },
-  {
-    path: 'customers',
-    component: CustomersComponent,
-  },
-  {
-    path: 'suppliers',
-    component: SuppliersComponent,
-  },
-  {
-    path: 'categories',
-    component: CategoriesComponent,
-  },
-  {
-    path: 'auth',
+    path: '',
+    component: MainComponent,
     children: [
       {
-        path: 'login',
-        component: LoginComponent,
+        path: 'dashboard',
+        component: DashboardComponent,
       },
       {
-        path: 'signup',
-        component: SignupComponent,
+        path: 'products',
+        component: ProductsComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
+      },
+      {
+        path: 'customers',
+        component: CustomersComponent,
+      },
+      {
+        path: 'suppliers',
+        component: SuppliersComponent,
+      },
+      {
+        path: 'categories',
+        component: CategoriesComponent,
       },
     ],
   },
+
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+  },
+
   { path: '**', component: NotfoundComponent },
 ];
 

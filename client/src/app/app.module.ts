@@ -32,6 +32,7 @@ import { OrdersService } from './services/orders.service';
 import { ProductsService } from './services/products.service';
 import { SuppliersService } from './services/suppliers.service';
 import { ShowItemDataComponent } from './components/modals/show-item-data/show-item-data.component';
+import { MainComponent } from './pages/main/main.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ShowItemDataComponent } from './components/modals/show-item-data/show-i
     AddSupplierComponent,
     AddCustomerComponent,
     ShowItemDataComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
